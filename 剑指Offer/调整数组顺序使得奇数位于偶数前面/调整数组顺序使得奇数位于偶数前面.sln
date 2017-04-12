@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "调整数组顺序使得奇数位于偶数前面", "调整数组顺序使得奇数位于偶数前面\调整数组顺序使得奇数位于偶数前面.vcproj", "{BCC6F1C3-89C3-4B7B-AE8D-8A1E9F13F7BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCC6F1C3-89C3-4B7B-AE8D-8A1E9F13F7BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCC6F1C3-89C3-4B7B-AE8D-8A1E9F13F7BF}.Debug|Win32.Build.0 = Debug|Win32
+		{BCC6F1C3-89C3-4B7B-AE8D-8A1E9F13F7BF}.Release|Win32.ActiveCfg = Release|Win32
+		{BCC6F1C3-89C3-4B7B-AE8D-8A1E9F13F7BF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

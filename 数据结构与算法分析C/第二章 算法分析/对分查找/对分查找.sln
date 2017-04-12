@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "对分查找", "对分查找\对分查找.vcproj", "{A2618EB8-44FB-4A33-924D-02382BBEAD1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2618EB8-44FB-4A33-924D-02382BBEAD1A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2618EB8-44FB-4A33-924D-02382BBEAD1A}.Debug|Win32.Build.0 = Debug|Win32
+		{A2618EB8-44FB-4A33-924D-02382BBEAD1A}.Release|Win32.ActiveCfg = Release|Win32
+		{A2618EB8-44FB-4A33-924D-02382BBEAD1A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

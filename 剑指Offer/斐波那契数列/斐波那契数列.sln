@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "斐波那契数列", "斐波那契数列\斐波那契数列.vcproj", "{216BF676-26CB-47E1-ABA4-8CD79FA53882}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{216BF676-26CB-47E1-ABA4-8CD79FA53882}.Debug|Win32.ActiveCfg = Debug|Win32
+		{216BF676-26CB-47E1-ABA4-8CD79FA53882}.Debug|Win32.Build.0 = Debug|Win32
+		{216BF676-26CB-47E1-ABA4-8CD79FA53882}.Release|Win32.ActiveCfg = Release|Win32
+		{216BF676-26CB-47E1-ABA4-8CD79FA53882}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

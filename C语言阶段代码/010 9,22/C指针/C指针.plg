@@ -1,0 +1,26 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: C指针 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\sjt\AppData\Local\Temp\RSP9E3F.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/C指针.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"D:\Microsoft Visual Studio\MyProjects\比特18班\9,22\C指针\C指针.CPP"
+]
+Creating command line "cl.exe @C:\Users\sjt\AppData\Local\Temp\RSP9E3F.tmp" 
+<h3>Output Window</h3>
+Compiling...
+C指针.CPP
+D:\Microsoft Visual Studio\MyProjects\比特18班\9,22\C指针\C指针.CPP(17) : warning C4508: 'main' : function should return a value; 'void' return type assumed
+
+
+
+<h3>Results</h3>
+C指针.OBJ - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
