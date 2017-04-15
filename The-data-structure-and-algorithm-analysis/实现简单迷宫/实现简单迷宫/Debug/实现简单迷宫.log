@@ -1,0 +1,14 @@
+﻿生成启动时间为 2017/4/16 3:16:09。
+     1>项目“E:\documents\visual studio 2015\Projects\The-data-structure-and-algorithm-analysis\实现简单迷宫\实现简单迷宫\实现简单迷宫.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
+         test.cpp
+       Link:
+         D:\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\documents\visual studio 2015\Projects\The-data-structure-and-algorithm-analysis\实现简单迷宫\Debug\实现简单迷宫.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"E:\documents\visual studio 2015\Projects\The-data-structure-and-algorithm-analysis\实现简单迷宫\Debug\实现简单迷宫.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\documents\visual studio 2015\Projects\The-data-structure-and-algorithm-analysis\实现简单迷宫\Debug\实现简单迷宫.lib" /MACHINE:X86 Debug\maze.obj
+         Debug\test.obj
+         实现简单迷宫.vcxproj -> E:\documents\visual studio 2015\Projects\The-data-structure-and-algorithm-analysis\实现简单迷宫\Debug\实现简单迷宫.exe
+     1>已完成生成项目“E:\documents\visual studio 2015\Projects\The-data-structure-and-algorithm-analysis\实现简单迷宫\实现简单迷宫\实现简单迷宫.vcxproj”(Build 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:02.90
