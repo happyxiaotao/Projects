@@ -26,3 +26,16 @@ int main()
 	system("pause");
 	return 0;
 }
+
+class Point
+{
+public :
+	Point(float xval);
+	virtual ~Point();
+	float x() const;
+	static int PointCount();
+protected :
+	virtual ostream& print(ostream& os) const();
+	float x;
+	static int point_count;
+};
