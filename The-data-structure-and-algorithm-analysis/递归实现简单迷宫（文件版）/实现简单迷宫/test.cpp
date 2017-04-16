@@ -1,8 +1,6 @@
 /*
-迷宫问题
-推荐网址：http://c.biancheng.net/cpp/biancheng/view/259.html
+递归问题求解迷宫有无出口问题（文件版）
 */
-
 
 #include "maze.h"
 #include "createFile.hpp"

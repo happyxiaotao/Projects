@@ -1,10 +1,9 @@
+/*
+功能：实现创建关卡文件
+*/
 #include <fstream>
 
-//共有两关
-const int MAX_LEVEL = 3;
-char* file[MAX_LEVEL] = {"maze_1.txt", "maze_2.txt", "maze_3.txt"};
-
-//关卡1地图
+//共有三关（1,2两关都有出口，3关没有出口）
 const int MAX_ROW_1 = 10;
 const int MAX_COL_1 = 10;
 char mapArr_1[MAX_ROW_1][MAX_COL_1] = {
