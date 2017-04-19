@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <stack>
+#include <assert.h>
 #include <vector>
 using namespace std;
 const int maxSize = 20;
@@ -30,19 +31,22 @@ void calculate(char ch, stack<char>& s)
 	switch (ch)
 	{
 	case '+':
-		s.push(right + left + '0');
+		s.push(left + right + '0');
 		break;
 	case '-':
-		s.push(right - left + '0');
+		s.push(left - right + '0');
 		break;
 	case '*':
-		s.push(right * left + '0');
+		s.push(left * right + '0');
 		break;
 	case '/':
-		if (0 != left)
-			s.push(right / left + '0');
+		if (0 != right)
+			s.push(left / right + '0');
 		else
+		{	
 			cerr << "除数不能为0" << endl;
+			assert(0);
+		}
 		break;
 	default:
 		break;
@@ -67,7 +71,7 @@ int RPE(char* str)
 
 int main()
 {	
-	//str是逆波兰表达式
+	//EPR是逆波兰表达式
 	char str[maxSize];
 
 	while (1)
@@ -75,7 +79,6 @@ int main()
 		cin >> str;
 
 		int result = RPE(str);
-
 		cout << "result = " << result << endl;
 	}
 	system("pause");
