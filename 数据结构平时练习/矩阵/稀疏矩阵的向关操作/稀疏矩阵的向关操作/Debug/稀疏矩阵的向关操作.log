@@ -1,0 +1,65 @@
+﻿生成启动时间为 2017/4/20 20:06:59。
+     1>项目“E:\documents\visual studio 2015\Projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\稀疏矩阵的向关操作.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
+         test.cpp
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\sparsematrix.hpp(100): error C2679: 二进制“<<”: 没有找到接受“const SparseMatrix<int>::Trituple<T>”类型的右操作数的运算符(或没有可接受的转换)
+                 with
+                 [
+                     T=int
+                 ]
+         d:\microsoft visual studio 14.0\vc\include\ostream(497): note: 可能是“std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_streambuf<char,std::char_traits<char>> *)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(477): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(const void *)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(457): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(long double)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(437): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(417): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(float)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(396): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned __int64)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(376): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(__int64)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(355): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned long)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(335): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(long)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(315): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned int)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(290): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(int)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(270): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned short)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(236): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(short)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(216): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(bool)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(209): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::ios_base &(__cdecl *)(std::ios_base &))”
+         d:\microsoft visual studio 14.0\vc\include\ostream(202): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_ios<char,std::char_traits<char>> &(__cdecl *)(std::basic_ios<char,std::char_traits<char>> &))”
+         d:\microsoft visual studio 14.0\vc\include\ostream(196): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_ostream<char,std::char_traits<char>> &(__cdecl *)(std::basic_ostream<char,std::char_traits<char>> &))”
+         d:\microsoft visual studio 14.0\vc\include\ostream(1021): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const std::error_code &)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(983): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>,SparseMatrix<int>::Trituple<T>>(std::basic_ostream<char,std::char_traits<char>> &&,const _Ty &)”
+                 with
+                 [
+                     T=int,
+                     _Ty=SparseMatrix<int>::Trituple<int>
+                 ]
+         d:\microsoft visual studio 14.0\vc\include\ostream(973): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,unsigned char)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(966): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const unsigned char *)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(959): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,signed char)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(952): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const signed char *)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(826): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,char)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(779): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(741): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,char)”
+         d:\microsoft visual studio 14.0\vc\include\ostream(694): note: 或  “std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)”
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\sparsematrix.hpp(100): note: 尝试匹配参数列表“(std::ostream, const SparseMatrix<int>::Trituple<T>)”时
+                 with
+                 [
+                     T=int
+                 ]
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\sparsematrix.hpp(98): note: 编译类 模板 成员函数“const int &SparseMatrix<int>::Acess(int,int) const”时
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\sparsematrix.hpp(93): note: 参见对正在编译的函数 模板 实例化“const int &SparseMatrix<int>::Acess(int,int) const”的引用
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\sparsematrix.hpp(58): note: 编译类 模板 成员函数“SparseMatrix<int>::SparseMatrix(T *,size_t,size_t,const T &)”时
+                 with
+                 [
+                     T=int
+                 ]
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\test.cpp(15): note: 参见对正在编译的函数 模板 实例化“SparseMatrix<int>::SparseMatrix(T *,size_t,size_t,const T &)”的引用
+                 with
+                 [
+                     T=int
+                 ]
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\test.cpp(15): note: 参见对正在编译的类 模板 实例化“SparseMatrix<int>”的引用
+     1>已完成生成项目“E:\documents\visual studio 2015\Projects\数据结构平时练习\矩阵\稀疏矩阵的向关操作\稀疏矩阵的向关操作\稀疏矩阵的向关操作.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:02.10
