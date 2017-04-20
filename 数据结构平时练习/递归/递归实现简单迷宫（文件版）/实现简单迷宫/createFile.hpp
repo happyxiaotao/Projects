@@ -2,6 +2,8 @@
 功能：实现创建关卡文件
 */
 #include <fstream>
+//文件名
+char* file[3] = {"maze1.txt", "maze2.txt", "maze3.txt"};
 
 //共有三关（1,2两关都有出口，3关没有出口）
 const int MAX_ROW_1 = 10;
