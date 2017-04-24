@@ -12,8 +12,13 @@ int Matrix[ROW][COL] = {
 
 int main()
 {
-	SparseMatrix<int> sm((int *)Matrix, 6, 5, 0);
-	cout<<sm.Access(3,3);
+	//const SparseMatrix<int> sm((int *)Matrix, 6, 5, 0);
+	//cout<<sm.Access(0,0);
+	//cout << "´òÓ¡Ï¡Êè¾ØÕó£º" << endl << sm << endl;
+
+	SparseMatrix<int> sm1((int *)Matrix, 6, 5, 0);
+	const SparseMatrix<int> sm2((int *)Matrix, 6, 5, 0);
+	cout<<(sm1 + sm2);
 
 	system("pause");
 	return 0;
