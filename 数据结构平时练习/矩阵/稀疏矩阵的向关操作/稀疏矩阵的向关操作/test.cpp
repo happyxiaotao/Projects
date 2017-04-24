@@ -13,8 +13,8 @@ int Matrix[ROW][COL] = {
 int main()
 {
 	SparseMatrix<int> sm((int *)Matrix, 6, 5, 0);
-	sm.Acess(3,3);
+	cout<<sm.Access(3,3);
 
-	system("pasue");
+	system("pause");
 	return 0;
 }

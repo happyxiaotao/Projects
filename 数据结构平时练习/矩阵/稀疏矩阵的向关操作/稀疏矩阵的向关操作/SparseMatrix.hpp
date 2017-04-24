@@ -29,8 +29,8 @@ public:
 	~SparseMatrix();
 
 	// 访问矩阵中的元素
-	T& Acess(int row, int col);
-	const T& Acess(int row, int col)const;
+	T& Access(int row, int col);
+	const T& Access(int row, int col)const;
 
 	template<class T>
 	friend ostream& operator<<(ostream& _cout, const SparseMatrix<T>& sm);
@@ -88,23 +88,32 @@ SparseMatrix<T>::~SparseMatrix()
 
 // 访问矩阵中的元素
 template <typename T>
-T& SparseMatrix<T>::Acess(int row, int col)
+T& SparseMatrix<T>::Access(int row, int col)
 {
-	return const_cast<T&>(static_cast<const SparseMatrix* const>(this)->Acess(row, col));
+	return const_cast<T>(static_cast<const SparseMatrix<T>* const>(this)->Access(row, col));
 }
 
 template <typename T>
-const T& SparseMatrix<T>::Acess(int row, int col)const
+const T& SparseMatrix<T>::Access(int row, int col)const
 {
+	int count = 0;
+	for (int i = 0; i < count; ++i)
+		if (m_sm.at(i).m_row == row && m_sm.at(i).m_col == col)
+			return m_sm.at(i).m_value;
+	return m_invalid;
 }
 
 template<class T>
 ostream& operator<<(ostream& out, const SparseMatrix<T>& sm)
 {
+	int count = 0;
 	for (size_t i = 0; i < sm.m_row; ++i)
 	{
 		for (size_t j = 0; j < sm.m_col; ++j)
-			cout << sm.Acess(i, j);
+			if ((count<sm.m_sm.size()) && (sm.m_sm.at(count).m_row == i) && (sm.m_sm.at(count).m_col == j))
+				cout << sm.m_sm.at(count++).m_value;
+			else
+				cout << sm.m_invalid;
 		cout << endl;
 	}
 	return out;
