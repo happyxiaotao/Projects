@@ -20,7 +20,7 @@ struct BinaryTreeNode
 };
 
 template <typename T>
-class BinaryTree
+class BinaryTree//将成员函数的实现进行简单的封装，用户只能显示调用公共接口
 {
 	typedef BinaryTreeNode<T> Node;
 public:

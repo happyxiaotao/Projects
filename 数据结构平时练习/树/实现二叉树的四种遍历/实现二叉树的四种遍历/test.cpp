@@ -1,5 +1,6 @@
 #include "BinaryTree.hpp"
 
+//按照二叉树的先序遍历存入字符串中
 char* array1 = "124###35##6";
 char* array2 = "124##5##3#6";
 
