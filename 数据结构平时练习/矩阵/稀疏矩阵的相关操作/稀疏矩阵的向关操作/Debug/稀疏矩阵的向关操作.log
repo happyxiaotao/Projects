@@ -1,0 +1,22 @@
+﻿生成启动时间为 2017/4/26 15:39:07。
+     1>项目“E:\documents\visual studio 2015\Projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\稀疏矩阵的向关操作.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
+         test.cpp
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(139): error C2131: 表达式的计算结果不是常数
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(139): note: 非常量参数或对非常量符号的引用导致了故障
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(139): note: 请参见“COL”的用法
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(136): note: 编译类 模板 成员函数“SparseMatrix<int> SparseMatrix<int>::FastTransport(size_t,size_t)”时
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\test.cpp(28): note: 参见对正在编译的函数 模板 实例化“SparseMatrix<int> SparseMatrix<int>::FastTransport(size_t,size_t)”的引用
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\test.cpp(22): note: 参见对正在编译的类 模板 实例化“SparseMatrix<int>”的引用
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(140): error C2131: 表达式的计算结果不是常数
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(140): note: 非常量参数或对非常量符号的引用导致了故障
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(140): note: 请参见“ROW”的用法
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(145): error C3863: array type 'size_t [ROW]' is not assignable
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(151): error C2440: “初始化”: 无法从“size_t [ROW]”转换为“size_t”
+         e:\documents\visual studio 2015\projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\sparsematrix.hpp(151): note: 没有使该转换得以执行的上下文
+     1>已完成生成项目“E:\documents\visual studio 2015\Projects\数据结构平时练习\矩阵\稀疏矩阵的相关操作\稀疏矩阵的向关操作\稀疏矩阵的向关操作.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:02.37
