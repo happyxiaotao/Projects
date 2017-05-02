@@ -21,10 +21,10 @@ int main()
 
 	BinaryTree<char> t3;
 	t3 = t2;
-	t3.PreOrder();
+//	t3.PreOrder();
 	t3.InOrder();
-	t3.PostOrder();
-	t3.LevelOrder();
+//	t3.PostOrder();
+//	t3.LevelOrder();
 
 
 	system("pause");

@@ -1,9 +1,13 @@
+/*
+利用树的自相似性，可以利用递归来较好的实现树的相关功能
+*/
 #pragma once
 #ifndef _BINARYTREE_H_
 #define _BINARYTREE_H_
 
 #include <iostream>
 #include <queue>
+#include <stack>
 using namespace std;
 
 template <typename T>
@@ -49,13 +53,13 @@ public:
 	void PreOrder()//前序遍历
 	{
 		cout << "前序遍历：";
-		_PreOrder(m_pRoot);
+		_PreOrder_2(m_pRoot);
 		cout << endl;
 	}
 	void InOrder()//中序遍历
 	{
 		cout << "中序遍历";
-		_InOrder(m_pRoot);
+		_InOrder_2(m_pRoot);
 		cout << endl;
 	}
 	void PostOrder()//后序遍历
@@ -75,8 +79,10 @@ private:
 	void _CreateTree(Node*& pRoot, const T array[], size_t size, size_t& index, const T& invalid);//创建树
 	Node* _CopyBinaryTree(Node* pRoot);//拷贝树
 	void _Destroy(Node*& pRoot);//清空树
-	void _PreOrder(Node* pRoot);//先序遍历
-	void _InOrder(Node* pRoot);//中序遍历
+	void _PreOrder_1(Node* pRoot);//递归实现：先序遍历
+	void _PreOrder_2(Node* pRoot);//非递归实现：先序遍历
+	void _InOrder_1(Node* pRoot);//递归实现：中序遍历
+	void _InOrder_2(Node* pRoot);//费递归实现：中序遍历
 	void _PostOrder(Node* pRoot);//后序遍历
 	void _LevelOrder(Node* pRoot);//层序遍历
 
@@ -121,24 +127,68 @@ void BinaryTree<T>::_Destroy(Node*& pRoot)//清空树
 }
 
 template <typename T>
-void BinaryTree<T>::_PreOrder(Node* pRoot)//前序遍历
+void BinaryTree<T>::_PreOrder_1(Node* pRoot)//递归实现：前序遍历
 {
 	if (pRoot)
 	{
 		cout << pRoot->m_data << " ";
-		_PreOrder(pRoot->m_pLeft);
-		_PreOrder(pRoot->m_pRight);
+		_PreOrder_1(pRoot->m_pLeft);
+		_PreOrder_1(pRoot->m_pRight);
+	}
+}
+template <typename T>
+void BinaryTree<T>::_PreOrder_2(Node* pRoot)//非递归实现：前序遍历（利用栈实现）
+{
+	if (nullptr == pRoot)//空树
+		return ;
+	stack<Node*> s;
+	s.push(pRoot);
+
+	while (!s.empty())
+	{
+		Node* pTemp = s.top();
+		cout << pTemp->m_data << " ";
+		s.pop();//pop放在push之前，由于栈的LIFO特性
+
+		if (pTemp->m_pRight)
+			s.push(pTemp->m_pRight);//一定要先存入右子树，后存入左子树，因为栈的LIFO特性
+		if (pTemp->m_pLeft)
+			s.push(pTemp->m_pLeft);
 	}
 }
 
 template <typename T>
-void BinaryTree<T>::_InOrder(Node* pRoot)//中序遍历
+void BinaryTree<T>::_InOrder_1(Node* pRoot)//递归实现：中序遍历
 {
 	if (pRoot)
 	{
-		_InOrder(pRoot->m_pLeft);
+		_InOrder_1(pRoot->m_pLeft);
 		cout << pRoot->m_data << " ";
-		_InOrder(pRoot->m_pRight);
+		_InOrder_1(pRoot->m_pRight);
+	}
+}
+template <typename T>
+void BinaryTree<T>::_InOrder_2(Node* pRoot)//非递归实现：中序遍历(1,找到树最左边的节点，并保存路径 2，访问当前节点，并将其右子树作为根节点。3，重复12)
+{	
+	if (nullptr == pRoot)
+		return;
+
+	stack<Node*> s;
+	Node* pCur = pRoot;
+
+	while (!s.empty() || pCur)//注意：后面的条件，因为是中序遍历，当根节点出栈之后，还需遍历右子树
+	{
+		while (pCur)
+		{
+			s.push(pCur);
+			pCur = pCur->m_pLeft;
+		}
+
+		Node* pTemp = s.top();
+		cout << pTemp->m_data << " ";
+		s.pop();
+
+		pCur = pTemp->m_pRight;
 	}
 }
 
