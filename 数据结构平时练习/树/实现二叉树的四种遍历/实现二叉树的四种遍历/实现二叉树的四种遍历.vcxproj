@@ -22,6 +22,7 @@
     <ProjectGuid>{1B1A7318-ECA6-4130-8A78-BCFE77126296}</ProjectGuid>
     <RootNamespace>实现二叉树的四种遍历</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>实现二叉树的相关面试题</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
