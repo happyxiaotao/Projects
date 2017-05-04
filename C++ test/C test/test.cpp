@@ -1,19 +1,25 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int main()
 {
-	vector<int> v;
-	int a = 10;
-	v.push_back(1);
-	v.push_back(2);
-	v.push_back(3);
-	v.push_back(4);
-	v.push_back(5);
-	v.push_back(6);
+	for (int i = 0; i < 26; ++i)//£¨'a' - 'z'£©-->£¨1 - 26£©
+	{
+		char ch = 'A' + i;
+		cout << (ch ^ 64) << endl;
+	}
 
-	cout << v[1] << endl;
+	for (int i = 0; i < 26; ++i)//£¨'A' - 'Z'£©-->£¨1 - 26£©
+	{
+		char ch = 'a' + i;
+		cout << (ch^96) << endl;
+	}
+
+	for (int i = 0; i < 10; ++i)//£¨'0' - '9'£©-->£¨0 - 9£©
+	{
+		char ch = '0' + i;
+		cout << (ch^48) << endl;
+	}
 
 	system("pause");
 	return 0;
