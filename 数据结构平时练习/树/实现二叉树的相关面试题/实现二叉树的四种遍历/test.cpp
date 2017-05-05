@@ -11,7 +11,7 @@ void FunTest2();
 
 int main()
 {
-	FunTest2();
+	FunTest1();
 
 	system("pause");
 	return 0;
@@ -34,7 +34,7 @@ void FunTest1()
 	t3 = t2;
 	//	t3.PreOrder();
 	//	t3.InOrder();
-	//	t3.PostOrder();
+		t3.PostOrder();
 	//	t3.LevelOrder();
 
 }

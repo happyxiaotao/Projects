@@ -1,6 +1,19 @@
 /*
+
+关于二叉树的递归遍历：
 利用树的自相似性，可以通过递归来较好的实现树的相关功能
-利用栈来存储路径
+
+关于二叉树的非递归遍历：
+1，利用栈来存储路径
+2，由于二叉树的前、中、后三种遍历，都可以利用递归轻松实现
+而递归本质上是一种栈结构，所以利用栈也可以较为简单的实现。
+
+注意:
+由于采用栈，来实现树的遍历，而栈只负责保存数据，并不知道数据间的关系，或者数据是否多次访问
+比如，无法获知，栈顶元素的左孩子或者右孩子已经访问过了。
+而我们在使用时，需要栈中的元素来获取它的左右孩子结点，并且访问它们，
+在遍历时，有可能导致，在某一个环节中，当前结点的左孩子或者是右孩子，多次入栈，多次访问，从而引发死循环问题
+所以，我们特别要注意当前结点的左右孩子是否已经访问过，不能重复入栈的问题。
 */
 #pragma once
 #ifndef _BINARYTREE_H_
@@ -54,19 +67,19 @@ public:
 	void PreOrder()//前序遍历
 	{
 		cout << "前序遍历：";
-		_PreOrder_2(m_pRoot);
+		_PreOrder_nor(m_pRoot);
 		cout << endl;
 	}
 	void InOrder()//中序遍历
 	{
 		cout << "中序遍历";
-		_InOrder_2(m_pRoot);
+		_InOrder_nor(m_pRoot);
 		cout << endl;
 	}
 	void PostOrder()//后序遍历
 	{
 		cout << "后序遍历";
-		_PostOrder(m_pRoot);
+		_PostOrder_nor(m_pRoot);
 		cout << endl;
 	}
 	void LevelOrder()//层序遍历
@@ -115,16 +128,30 @@ public:
 		return _GetKLevelNode(m_pRoot, k);
 	}
 
+	
+	void GetBinaryMirror_Nor();// 求二叉树的镜像：非递归
+
+	void GetBinaryMirror()	// 求二叉树的镜像：递归版本
+	{
+		return _GetBinaryMirror(_pRoot);
+	}
+
+	// 利用层序遍历来处理--> 关键：找第一个度不为2的结点-->后续结点
+	// 如果有孩子则不是完全二叉树
+	// 否则：是
+	bool IsCompleteBinaryTree();
+
 private:
 	void _CreateTree(Node*& pRoot, const T array[], size_t size, size_t& index, const T& invalid);//创建树
 	Node* _CopyBinaryTree(Node* pRoot);//拷贝树
 	void _Destroy(Node*& pRoot);//清空树
 
-	void _PreOrder_1(Node* pRoot);//递归实现：先序遍历
-	void _PreOrder_2(Node* pRoot);//非递归实现：先序遍历
-	void _InOrder_1(Node* pRoot);//递归实现：中序遍历
-	void _InOrder_2(Node* pRoot);//费递归实现：中序遍历
-	void _PostOrder(Node* pRoot);//后序遍历
+	void _PreOrder(Node* pRoot);//递归实现：先序遍历
+	void _PreOrder_nor(Node* pRoot);//非递归实现：先序遍历
+	void _InOrder(Node* pRoot);//递归实现：中序遍历
+	void _InOrder_nor(Node* pRoot);//非递归实现：中序遍历
+	void _PostOrder(Node* pRoot);//递归实现：后序遍历
+	void _PostOrder_nor(Node* pRoot);//非递归实现：后序遍历
 	void _LevelOrder(Node* pRoot);//层序遍历
 
 	Node* _GetParent(Node* pRoot, Node* x);//获取双亲结点
@@ -174,17 +201,18 @@ void BinaryTree<T>::_Destroy(Node*& pRoot)//清空树
 }
 
 template <typename T>
-void BinaryTree<T>::_PreOrder_1(Node* pRoot)//递归实现：前序遍历
+void BinaryTree<T>::_PreOrder(Node* pRoot)//递归实现：前序遍历
 {
 	if (pRoot)
 	{
 		cout << pRoot->m_data << " ";
-		_PreOrder_1(pRoot->m_pLeft);
-		_PreOrder_1(pRoot->m_pRight);
+		_PreOrder(pRoot->m_pLeft);
+		_PreOrder(pRoot->m_pRight);
 	}
 }
+
 template <typename T>
-void BinaryTree<T>::_PreOrder_2(Node* pRoot)//非递归实现：前序遍历（利用栈实现）
+void BinaryTree<T>::_PreOrder_nor(Node* pRoot)//非递归实现：前序遍历（利用栈实现）
 {
 	if (nullptr == pRoot)//空树
 		return ;
@@ -205,17 +233,17 @@ void BinaryTree<T>::_PreOrder_2(Node* pRoot)//非递归实现：前序遍历（利用栈实现）
 }
 
 template <typename T>
-void BinaryTree<T>::_InOrder_1(Node* pRoot)//递归实现：中序遍历
+void BinaryTree<T>::_InOrder(Node* pRoot)//递归实现：中序遍历
 {
 	if (pRoot)
 	{
-		_InOrder_1(pRoot->m_pLeft);
+		_InOrder(pRoot->m_pLeft);
 		cout << pRoot->m_data << " ";
-		_InOrder_1(pRoot->m_pRight);
+		_InOrder(pRoot->m_pRight);
 	}
 }
 template <typename T>
-void BinaryTree<T>::_InOrder_2(Node* pRoot)//非递归实现：中序遍历(1,找到树最左边的节点，并保存路径 2，访问当前节点，并将其右子树作为根节点。3，重复12)
+void BinaryTree<T>::_InOrder_nor(Node* pRoot)//非递归实现：中序遍历(1,找到树最左边的节点，并保存路径 2，访问当前节点，并将其右子树作为根节点。3，重复12)
 {	
 	if (nullptr == pRoot)
 		return;
@@ -247,6 +275,41 @@ void BinaryTree<T>::_PostOrder(Node* pRoot)//后序遍历
 		_PostOrder(pRoot->m_pLeft);
 		_PostOrder(pRoot->m_pRight);
 		cout << pRoot->m_data << " ";
+	}
+}
+
+template <typename T>
+void BinaryTree<T>::_PostOrder_nor(Node* pRoot)//非递归实现：后序遍历
+{/*顺序：总是：左-->右-->根
+1，找到最左边的叶子结点
+2，访问最左边的结点（即栈顶结点）
+3，若栈顶元素的兄弟结点为空，或者不为空但已经访问过了（不为空时，采用标记避免陷入死循环（一直保存右孩子）中），就输出栈顶结点值
+4，否则，进入栈顶元素的兄弟结点所在树中，进行1-2步迭代
+ */
+	if (nullptr == pRoot)//空树
+		return;
+	stack<Node*> s;
+	Node* pCur = pRoot;//当前树的根结点
+	Node* pPre = nullptr;//最近一次访问的节点
+	while (!s.empty() || pCur)//树不为空，或者树为空时根结点不为空（即还没有将节点放入栈中）
+	{
+		while (pCur)//找到该树最左边的叶子结点，并且保存路径
+		{
+			s.push(pCur);
+			pCur = pCur->m_pLeft;//一直找左孩子。
+		}
+
+		pCur = s.top();//取出栈顶元素
+
+		if ((nullptr == pCur->m_pRight) || (pPre == pCur->m_pRight))//若栈顶元素的右孩子为空，或者栈顶元素的右孩子孩子不为空并且等于刚才输出的节点（避免陷入死循环：一直保存右孩子）
+		{
+			cout << pCur->m_data << " ";//打印根结点的前提是：右子树为空
+			s.pop();
+			pPre = pCur;
+			pCur = nullptr;//置为空，使得下次迭代中，跳出寻找那次迭代中的树的最左边结点，避免陷入死循环（一直保存左孩子）
+		}
+		else
+			pCur = pCur->m_pRight;
 	}
 }
 
