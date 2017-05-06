@@ -1,4 +1,4 @@
-﻿生成启动时间为 2017/5/5 21:07:40。
+﻿生成启动时间为 2017/5/6 23:42:47。
      1>项目“E:\documents\visual studio 2015\Projects\数据结构平时练习\树\实现二叉树的相关面试题\实现二叉树的四种遍历\实现二叉树的四种遍历.vcxproj”在节点 2 上(Build 个目标)。
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (实现二叉树的四种遍历.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
@@ -11,4 +11,4 @@
 
 已成功生成。
 
-已用时间 00:00:03.78
+已用时间 00:00:03.57

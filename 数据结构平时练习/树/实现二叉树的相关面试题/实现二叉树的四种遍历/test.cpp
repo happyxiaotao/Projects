@@ -11,7 +11,7 @@ void FunTest2();
 
 int main()
 {
-	FunTest1();
+	FunTest2();
 
 	system("pause");
 	return 0;
@@ -34,9 +34,8 @@ void FunTest1()
 	t3 = t2;
 	//	t3.PreOrder();
 	//	t3.InOrder();
-		t3.PostOrder();
+	//	t3.PostOrder();
 	//	t3.LevelOrder();
-
 }
 
 void FunTest2()
@@ -67,5 +66,13 @@ void FunTest2()
 	//cout << t1.GetLeefNode() << endl;
 
 	//获取某一层结点个数
-	cout << t1.GetKLevelNode(3) << endl;
+	//cout << t1.GetKLevelNode(3) << endl;
+
+	//打印镜像
+	//t1.GetBinaryMirror_Nor();
+	t1.GetBinaryMirror();
+	t1.PreOrder();
+	t1.InOrder();
+	t1.PostOrder();
+	t1.LevelOrder();
 }

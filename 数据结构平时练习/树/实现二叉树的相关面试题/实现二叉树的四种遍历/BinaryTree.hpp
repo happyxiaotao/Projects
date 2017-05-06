@@ -14,6 +14,10 @@
 ¶øÎÒÃÇÔÚÊ¹ÓÃÊ±£¬ĞèÒªÕ»ÖĞµÄÔªËØÀ´»ñÈ¡ËüµÄ×óÓÒº¢×Ó½áµã£¬²¢ÇÒ·ÃÎÊËüÃÇ£¬
 ÔÚ±éÀúÊ±£¬ÓĞ¿ÉÄÜµ¼ÖÂ£¬ÔÚÄ³Ò»¸ö»·½ÚÖĞ£¬µ±Ç°½áµãµÄ×óº¢×Ó»òÕßÊÇÓÒº¢×Ó£¬¶à´ÎÈëÕ»£¬¶à´Î·ÃÎÊ£¬´Ó¶øÒı·¢ËÀÑ­»·ÎÊÌâ
 ËùÒÔ£¬ÎÒÃÇÌØ±ğÒª×¢Òâµ±Ç°½áµãµÄ×óÓÒº¢×ÓÊÇ·ñÒÑ¾­·ÃÎÊ¹ı£¬²»ÄÜÖØ¸´ÈëÕ»µÄÎÊÌâ¡£
+
+
+¹ØÓÚÕ»Óë¶ÓÁĞ
+Õ»¶ÔÓÚ³öÕ»ºÍÈëÕ»µÄË³ĞòÓĞÒªÇó£¬¶ø¶ÓÁĞÃ»Ê²Ã´ÒªÇó¡£
 */
 #pragma once
 #ifndef _BINARYTREE_H_
@@ -128,12 +132,11 @@ public:
 		return _GetKLevelNode(m_pRoot, k);
 	}
 
-	
-	void GetBinaryMirror_Nor();// Çó¶ş²æÊ÷µÄ¾µÏñ£º·Çµİ¹é
+	void GetBinaryMirror_Nor();// ½«¶ş²æÊ÷±äÎªÆä¾µÏñ£º·Çµİ¹é
 
-	void GetBinaryMirror()	// Çó¶ş²æÊ÷µÄ¾µÏñ£ºµİ¹é°æ±¾
+	void GetBinaryMirror()	// ½«¶ş²æÊ÷±äÎªÆä¾µÏñ£ºµİ¹é°æ±¾
 	{
-		return _GetBinaryMirror(_pRoot);
+		_GetBinaryMirror(m_pRoot);
 	}
 
 	// ÀûÓÃ²ãĞò±éÀúÀ´´¦Àí--> ¹Ø¼ü£ºÕÒµÚÒ»¸ö¶È²»Îª2µÄ½áµã-->ºóĞø½áµã
@@ -159,6 +162,8 @@ private:
 	size_t _Height(Node* pRoot);//»ñÈ¡Ê÷µÄ¸ß¶È
 	size_t _GetLeefNode(Node* pRoot);//»ñÈ¡Ò¶×Ó½áµã¸öÊı
 	size_t _GetKLevelNode(Node* pRoot, size_t k);//»ñÈ¡Ä³Ò»²ã½áµã¸öÊı
+
+	void _GetBinaryMirror(Node* pRoot);//µİ¹éÊµÏÖ£º½«¶ş²æÊ÷±äÎªÆä¾µÏñ
 
 private:
 	BinaryTreeNode<T>* m_pRoot;//¸ù½áµã
@@ -426,6 +431,63 @@ size_t BinaryTree<T>::_GetKLevelNode(Node* pRoot, size_t k)//µİ¹éÊµÏÖ£º»ñÈ¡Ä³Ò»²
 	size_t nodes_right = _GetKLevelNode(pRoot->m_pRight, k - 1);//»ñÈ¡ÓÒ×ÓÊ÷ÖĞk-1²ã½áµã¸öÊı
 
 	return nodes_left + nodes_right;
+}
+
+template <typename T>
+void BinaryTree<T>::GetBinaryMirror_Nor()// ½«¶ş²æÊ÷±äÎªÆä¾µÏñ£º·Çµİ¹é
+{
+	if (nullptr == m_pRoot)//¿ÕÊ÷
+		return;
+
+	//ÀûÓÃ²ãĞò±éÀúµÄË¼Ïë£¬½«Ã¿Ò»²ãÖĞ£¬Ã¿Ò»¸ö½Úµã°´Ë³Ğò·ÅÈë¶ÓÁĞÖĞ£¬È»ºó¸Ä±äÆä×óÓÒº¢×ÓµÄÎ»ÖÃ
+	queue<Node*> q;
+	Node* pCur = m_pRoot;
+	q.push(pCur);
+	while (!q.empty())
+	{
+		pCur = q.front();
+		q.pop();//ÓÉÓÚÊÇ¶ÓÁĞ£¬¶ÔÓÚ³ö¶ÓÁĞºÍÈë¶ÓÁĞµÄË³ĞòÃ»ÓĞÒªÇó
+			
+		if (pCur->m_pLeft || pCur->m_pRight)//Èç¹ûµ±Ç°½Úµã²»ÊÇÒ¶×Ó½áµã£¨¼´£ºÓĞ×óÓÒº¢×Ó£©
+		{
+			std::swap(pCur->m_pLeft, pCur->m_pRight);//½»»»×óÓÒº¢×Ó
+
+			//½«´æÔÚµÄ×óº¢×Ó»òÓÒº¢×ÓÈë¶ÓÁĞ
+			if (pCur->m_pLeft)
+				q.push(pCur->m_pLeft);
+			if (pCur->m_pRight)
+				q.push(pCur->m_pRight);
+		}
+	}
+}
+
+template <typename T>
+void BinaryTree<T>::_GetBinaryMirror(Node* pRoot)	// ½«¶ş²æÊ÷±äÎªÆä¾µÏñ£ºµİ¹é°æ±¾
+{
+	if (nullptr == pRoot)//¿ÕÊ÷
+		return;
+
+	if ((nullptr == pRoot->m_pLeft) && (nullptr == pRoot->m_pRight))//Èç¹û_ÊÇÒ¶×Ó½áµã
+		return;
+	//ÒÔÉÏÁ½ÌõÅĞ¶ÏÓï¾äÊÇµİ¹é³ö¿Ú
+
+	std::swap(pRoot->m_pLeft, pRoot->m_pRight);//½»»»×óÓÒº¢×Ó
+
+	//½«´æÔÚµÄ×óÓÒº¢×ÓÊ÷£¬×÷ÎªĞÂÊ÷£¬Ö´ĞĞÏàÍ¬¹¦ÄÜ
+	//if (pRoot->m_pLeft)£¬²»¼ÓÅĞ¿ÕÓï¾ä£¬ÔÚÏÂ´Îµİ¹éÖĞ»áÅĞ¿Õ¡£
+		_GetBinaryMirror(pRoot->m_pLeft);
+	//if (pRoot->m_pRight)£¬²»¼ÓÅĞ¿ÕÓï¾ä£¬ÔÚÏÂ´Îµİ¹éÖĞ»áÅĞ¿Õ¡£
+		_GetBinaryMirror(pRoot->m_pRight);
+}
+
+// ÀûÓÃ²ãĞò±éÀúÀ´´¦Àí--> ¹Ø¼ü£ºÕÒµÚÒ»¸ö¶È²»Îª2µÄ½áµã-->ºóĞø½áµã
+// Èç¹ûÓĞº¢×ÓÔò²»ÊÇÍêÈ«¶ş²æÊ÷
+// ·ñÔò£ºÊÇ
+template <typename T>
+bool BinaryTree<T>::IsCompleteBinaryTree()
+{
+
+	return true;
 }
 
 #endif //_BINARYTREE_H_
