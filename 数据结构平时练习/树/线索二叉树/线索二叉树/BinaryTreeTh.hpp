@@ -89,4 +89,25 @@ void BinaryTreeTh<T>::_CreateTree(Node*& pRoot, const T array[], size_t size, si
 	}
 }
 
+template <typename T>//前序遍历线索化二叉树
+void BinaryTreeTh<T>::_InThreading(Node* pRoot, Node*& prev)
+{
+	/*
+	对于前序遍历线索化二叉树，某一结点的前驱永远是其双亲节点，其后继永远是
+	*/
+
+	if (pRoot)
+	{
+		prev = pRoot;
+		if (nullptr == pRoot->_pLeft)
+		{
+			pRoot->_pLeft = pRoot;
+			pRoot->_leftThread = THREAD;
+		}
+		_InThreading(pRoot->_pLeft, prev);
+		_InThreading(pRoot->_pRight, prev);
+	}
+}
+
+
 #endif //_BINARYTREETH_H_
