@@ -12,4 +12,11 @@ int main()
 
 void FunTest1()
 {
+	char* str = "124###35##6";
+
+	BinaryTreeTh<char> t = BinaryTreeTh<char>(str, strlen(str), '#');
+
+	t.PreThreading();
+
+
 }

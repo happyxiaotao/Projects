@@ -17,7 +17,7 @@ public:
 		,_leftThread(LINK)
 		,_rightThread(LINK)
 	{}
-private:
+public:
 	T _data;
 	BinaryTreeThNode<T>* _pLeft;
 	BinaryTreeThNode<T>* _pRight;
@@ -28,7 +28,7 @@ private:
 template <typename T>
 class BinaryTreeTh
 {
-	typedef BinaryTreeThNode Node;
+	typedef BinaryTreeThNode<T> Node;
 public:
 	BinaryTreeTh()
 		: _pRoot(nullptr)
@@ -40,19 +40,19 @@ public:
 		_CreateTree(_pRoot, array, size, index, invalid);
 	}
 
-	void PreThreading()//前序遍历线索化二叉树
+	void PreThreading()//前序线索化二叉树
 	{
 		Node* prev = nullptr;
 		_PreThreading(_pRoot, prev);
 	}
 
-	void InThreading()//中序遍历线索化二叉树
+	void InThreading()//中序线索化二叉树
 	{
 		Node* prev = nullptr;
 		_InThreading(_pRoot, prev);
 	}
 
-	void PostThreading()//后序遍历线索化二叉树
+	void PostThreading()//后序线索化二叉树
 	{
 		Node* prev = nullptr;
 		_PostThreading(_pRoot, prev);
@@ -67,11 +67,11 @@ public:
 private:
 	void _CreateTree(Node* &pRoot, const T array[], size_t size, size_t& index, const T& invalid);//创建二叉树
 
-	void _PreThreading(Node* pRoot, Node*& prev);//前序遍历线索化二叉树
+	void _PreThreading(Node* pRoot, Node*& prev);//前序线索化二叉树
 
-	void _InThreading(Node* pRoot, Node*& prev);//中序遍历线索化二叉树
+	void _InThreading(Node* pRoot, Node*& prev);//中序线索化二叉树
 
-	void _PostThreading(Node* pRoot, Node*& prev);//后序遍历线索化二叉树
+	void _PostThreading(Node* pRoot, Node*& prev);//后序线索化二叉树
 private:
 	Node* _pRoot;
 };
@@ -89,25 +89,37 @@ void BinaryTreeTh<T>::_CreateTree(Node*& pRoot, const T array[], size_t size, si
 	}
 }
 
-template <typename T>//前序遍历线索化二叉树
-void BinaryTreeTh<T>::_InThreading(Node* pRoot, Node*& prev)
+template <typename T>//前序线索化二叉树
+void BinaryTreeTh<T>::_PreThreading(Node* pRoot, Node*& prev)
 {
 	/*
-	对于前序遍历线索化二叉树，某一结点的前驱永远是其双亲节点，其后继永远是
+	对于前序遍历线索化二叉树。（前序遍历顺序：根-左-右。线索化顺序：根-左-右）
+	某一结点：
+		左指针域：左孩子（非空）/前驱（空）
+		右指针域：右孩子（非空）/后继（空）
 	*/
 
 	if (pRoot)
 	{
-		prev = pRoot;
-		if (nullptr == pRoot->_pLeft)
+		if (prev && (nullptr == pRoot->_pLeft))//当左孩子为空时，线索化左孩子（prev不能为空）
 		{
-			pRoot->_pLeft = pRoot;
+			pRoot->_pLeft = prev;
 			pRoot->_leftThread = THREAD;
 		}
-		_InThreading(pRoot->_pLeft, prev);
-		_InThreading(pRoot->_pRight, prev);
+		if (prev && (nullptr == prev->_pRight))//当右孩子为空时，线索化右孩子（prev不能为空）
+		{
+			prev->_pRight = pRoot;
+			prev->_rightThread = THREAD;
+		}
+		
+		prev = pRoot;//prev指向最近访问的结点
+
+		if (LINK == pRoot->_leftThread)//左孩子未进行线索化（即左孩子不为空），进入左孩子所在树，进行线索化
+			_PreThreading(pRoot->_pLeft, prev);
+
+		if (LINK == pRoot->_rightThread)//右孩子未进行线索化（即右孩子不为空），进入右孩子所在树，进行线索化
+			_PreThreading(pRoot->_pRight, prev);
 	}
 }
-
 
 #endif //_BINARYTREETH_H_
