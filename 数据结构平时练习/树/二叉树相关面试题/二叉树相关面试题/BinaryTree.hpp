@@ -33,8 +33,8 @@ struct BinaryTreeNode
 {
 	BinaryTreeNode(const T& data)
 		:m_data(data)
-		, m_pLeft(NULL)
-		, m_pRight(NULL)
+		, m_pLeft(nullptr)
+		, m_pRight(nullptr)
 	{}
 	T m_data;
 	BinaryTreeNode<T>* m_pLeft;//×óº¢×Ó
@@ -47,7 +47,7 @@ class BinaryTree//½«³ÉÔ±º¯ÊıµÄÊµÏÖ½øĞĞ¼òµ¥µÄ·â×°£¬ÓÃ»§Ö»ÄÜÏÔÊ¾µ÷ÓÃ¹«¹²½Ó¿Ú
 	typedef BinaryTreeNode<T> Node;
 public:
 	BinaryTree()//ÎŞ²Î¹¹Ôìº¯Êı
-		:m_pRoot(NULL)
+		:m_pRoot(nullptr)
 	{}
 	BinaryTree(const T array[], size_t size, const T& invalid)//´ø²Î¹¹Ôìº¯Êı
 	{
@@ -146,21 +146,30 @@ public:
 
 private:
 	void _CreateTree(Node*& pRoot, const T array[], size_t size, size_t& index, const T& invalid);//´´½¨Ê÷
+
 	Node* _CopyBinaryTree(Node* pRoot);//¿½±´Ê÷
+
 	void _Destroy(Node*& pRoot);//Çå¿ÕÊ÷
 
 	void _PreOrder(Node* pRoot);//µİ¹éÊµÏÖ£ºÏÈĞò±éÀú
 	void _PreOrder_nor(Node* pRoot);//·Çµİ¹éÊµÏÖ£ºÏÈĞò±éÀú
+
 	void _InOrder(Node* pRoot);//µİ¹éÊµÏÖ£ºÖĞĞò±éÀú
 	void _InOrder_nor(Node* pRoot);//·Çµİ¹éÊµÏÖ£ºÖĞĞò±éÀú
+
 	void _PostOrder(Node* pRoot);//µİ¹éÊµÏÖ£ººóĞò±éÀú
 	void _PostOrder_nor(Node* pRoot);//·Çµİ¹éÊµÏÖ£ººóĞò±éÀú
+
 	void _LevelOrder(Node* pRoot);//²ãĞò±éÀú
 
 	Node* _GetParent(Node* pRoot, Node* x);//»ñÈ¡Ë«Ç×½áµã
+
 	Node* _Find(Node* pRoot, const T& value);//ÕÒµ½ÖµÎªvalueµÄ½áµã
+
 	size_t _Height(Node* pRoot);//»ñÈ¡Ê÷µÄ¸ß¶È
+
 	size_t _GetLeefNode(Node* pRoot);//»ñÈ¡Ò¶×Ó½áµã¸öÊı
+
 	size_t _GetKLevelNode(Node* pRoot, size_t k);//»ñÈ¡Ä³Ò»²ã½áµã¸öÊı
 
 	void _GetBinaryMirror(Node* pRoot);//µİ¹éÊµÏÖ£º½«¶ş²æÊ÷±äÎªÆä¾µÏñ
@@ -172,7 +181,7 @@ private:
 template <typename T>//´´½¨Ê÷
 void BinaryTree<T>::_CreateTree(Node*& pRoot, const T array[], size_t size, size_t& index, const T& invalid)
 {
-	if ((array[index] != invalid) && (index < size))
+	if ((index < size) && (array[index] != invalid))
 	{
 		pRoot = new Node(array[index]);
 		_CreateTree(pRoot->m_pLeft, array, size, ++index, invalid);
@@ -183,7 +192,7 @@ void BinaryTree<T>::_CreateTree(Node*& pRoot, const T array[], size_t size, size
 template <typename T>//¿½±´Ê÷
 BinaryTreeNode<T>* BinaryTree<T>::_CopyBinaryTree(Node* pRoot)
 {
-	Node* pNewRoot = NULL;
+	Node* pNewRoot = nullptr;
 	if (pRoot)
 	{
 		pNewRoot = new Node(pRoot->m_data);
@@ -473,8 +482,8 @@ void BinaryTree<T>::_GetBinaryMirror(Node* pRoot)	// ½«¶ş²æÊ÷±äÎªÆä¾µÏñ£ºµİ¹é°æ±
 
 	std::swap(pRoot->m_pLeft, pRoot->m_pRight);//½»»»×óÓÒº¢×Ó
 
-											   //½«´æÔÚµÄ×óÓÒº¢×ÓÊ÷£¬×÷ÎªĞÂÊ÷£¬Ö´ĞĞÏàÍ¬¹¦ÄÜ
-											   //if (pRoot->m_pLeft)£¬²»¼ÓÅĞ¿ÕÓï¾ä£¬ÔÚÏÂ´Îµİ¹éÖĞ»áÅĞ¿Õ¡£
+	//½«´æÔÚµÄ×óÓÒº¢×ÓÊ÷£¬×÷ÎªĞÂÊ÷£¬Ö´ĞĞÏàÍ¬¹¦ÄÜ
+	//if (pRoot->m_pLeft)£¬²»¼ÓÅĞ¿ÕÓï¾ä£¬ÔÚÏÂ´Îµİ¹éÖĞ»áÅĞ¿Õ¡£
 	_GetBinaryMirror(pRoot->m_pLeft);
 	//if (pRoot->m_pRight)£¬²»¼ÓÅĞ¿ÕÓï¾ä£¬ÔÚÏÂ´Îµİ¹éÖĞ»áÅĞ¿Õ¡£
 	_GetBinaryMirror(pRoot->m_pRight);

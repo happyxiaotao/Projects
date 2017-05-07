@@ -69,7 +69,7 @@ void FunTest2()
 	//cout << t1.GetKLevelNode(3) << endl;
 
 	//´òÓ¡¾µÏñ
-	//t1.GetBinaryMirror_Nor();
+	t1.GetBinaryMirror_Nor();
 	//t1.GetBinaryMirror();
 	//t1.PreOrder();
 	//t1.InOrder();
