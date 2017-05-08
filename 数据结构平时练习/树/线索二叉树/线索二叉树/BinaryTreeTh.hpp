@@ -122,4 +122,37 @@ void BinaryTreeTh<T>::_PreThreading(Node* pRoot, Node*& prev)
 	}
 }
 
+template <typename T>
+void BinaryTreeTh<T>::_InThreading(Node* pRoot, Node*& prev)//中序线索化二叉树
+{
+	//中序线索化二叉树：左--根--右
+
+	if (pRoot)
+	{
+		prev = pRoot;
+
+		if (LINK == pRoot->_leftThread)
+			_InThreading(pRoot->_pLeft, prev);
+
+		//线索化当前节点
+		if (prev && (nullptr == pRoot->_pLeft))//线索化左子树
+		{
+			pRoot->_pLeft == prev;
+			pRoot->_leftThread = THREAD;
+		}
+
+		if (prev && (nullptr == prev->_pRight))//线索化右子树
+		{
+			prev->_pRight = pRoot;
+			prev->_rightThread = THREAD;
+		}
+		if (LINK == pRoot->_rightThread)
+			_InThreading(pRoot->_pRight, prev);
+	}
+}
+
+template <typename T>
+void BinaryTreeTh<T>::_PostThreading(Node* pRoot, Node*& prev)//后序线索化二叉树
+{}
+
 #endif //_BINARYTREETH_H_
