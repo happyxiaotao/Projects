@@ -33,7 +33,7 @@ Heap<T>::Heap(const T array[], size_t size)
 	if (nullptr == array)
 		return;
 
-	_heap.resize(size);//重置vector大小
+	_heap.resize(size);//重置_heap大小
 
 	for (int idx = size-1; idx >= 0; --idx)
 	{
