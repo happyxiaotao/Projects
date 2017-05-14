@@ -33,7 +33,7 @@ public:
 	// 创建一个空堆
 	Heap()
 	{}
-	Heap(const T array[], size_t size);
+	Heap(const T array[], size_t size, const T& invalid);
 
 	size_t Size()const
 	{
@@ -68,15 +68,15 @@ protected:
 };
 
 template <typename T, typename Compare = Less<T>>
-Heap<T, Compare>::Heap(const T array[], size_t size)
+Heap<T, Compare>::Heap(const T array[], size_t size, const T& invalid)
 {
-	if (nullptr == array)//array不为空
-		return;
+	assert(nullptr == array);
 
 	_heap.resize(size);//改变堆的大小
 
 	for (size_t i = 0; i < size; ++i)
-		_heap[i] = array[i];	//保存数据
+		if (array[i] != invalid)
+			_heap.push_back(array[i]);//保存数据
 
 	for (int i = ((size - 2) >> 1); i >= 0; --i)
 		_AdjustDown(i);		//向下调整

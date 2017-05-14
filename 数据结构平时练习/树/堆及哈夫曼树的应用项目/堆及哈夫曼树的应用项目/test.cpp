@@ -7,24 +7,10 @@ using namespace std;
 void Test1();
 void Test2();
 
-template <typename T>
-class Com
-{
-	bool is()
-	{
-		return true;
-	}
-};
-template <typename T, template<typename T> class Com >
-class MyClass
-{
-};
-
 int main()
 {
 //	Test1();
 
-	MyClass<int, Com> myclass;
 
 	system("pause");
 	return 0;
@@ -38,7 +24,7 @@ void Test1()
 	//Heap<int, Less> hp(arr, sizeof(arr) / sizeof(arr[0]));//当参数是类模板时
 
 	int arr[] = {1,3,5,7,9,2,4,6,8,10};
-	Heap<int, Greater<int>> hp(arr, sizeof(arr)/sizeof(arr[0]));//创建大堆
+	Heap<int, Greater<int>> hp(arr, sizeof(arr)/sizeof(arr[0]), -1);//创建大堆
 	hp.Print();
 
 	hp.Insert(0);
