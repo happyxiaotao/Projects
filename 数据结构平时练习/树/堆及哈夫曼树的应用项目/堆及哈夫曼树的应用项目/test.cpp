@@ -1,5 +1,6 @@
 #include "heap.hpp"
 #include "priorityQueue.hpp"
+#include "HuffmanTree.hpp"
 #include <iostream>
 
 using namespace std;
@@ -11,6 +12,7 @@ int main()
 {
 //	Test1();
 
+	Test2();
 
 	system("pause");
 	return 0;
@@ -34,4 +36,10 @@ void Test1()
 	hp.Print();
 
 	cout << endl;
+}
+
+void Test2()
+{
+	int arr[] = {1,3,5,7};
+	HuffmanTree<int> ht(arr, sizeof(arr)/sizeof(arr[0]), -1);
 }
