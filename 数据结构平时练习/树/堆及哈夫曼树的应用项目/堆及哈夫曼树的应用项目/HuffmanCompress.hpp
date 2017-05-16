@@ -47,7 +47,12 @@ public:
 	HuffmanCompress(string& fileName);//哈夫曼压缩
 	void UnCompress();//哈夫曼解压缩
 private:
+	//统计文件中字符出现次数
+	//保存各个字符的哈夫曼编码
 	void GeneratorHuffmanCode(HuffmanTreeNode<CharInfo>* pRoot, string& strCode);
+	//重新对文件进行编码
+	//向文件中写入一些编码信息
+	void GeneratorConfigInfo(FILE* fOut;
 private:
 	CharInfo _FileInfo[256];//一共有256中不同的字符（汉字是由两个字符组成的）
 };
@@ -74,23 +79,23 @@ HuffmanCompress::HuffmanCompress(string& fileName)
 	for (size_t i = 0; i <256; ++i)
 		_FileInfo[i]._ch = i;//给256个字符节点赋值
 
-	char* readBuff = new char[1024];//最多一次读取1024个字节（一次读取一个字符，效率低）
+	char* pReadBuff = new char[1024];//最多一次读取1024个字节（一次读取一个字符，效率低）
 	while (true)	//统计各个字符出现次数
 	{
-		size_t readSize = fread(readBuff, 1, 1024, fIn);//readSize保存一次读取的实际个数
+		size_t readSize = fread(pReadBuff, 1, 1024, fIn);//readSize保存一次读取的实际个数
 
 		if (0 == readSize)//没有读取到字符
 			break;
 
 		for (size_t i = 0; i < readSize; ++i)
-			_FileInfo[readBuff[i]]._count++;
+			_FileInfo[pReadBuff[i]]._count++;
 	}
 
 	//构建哈夫曼树
 	HuffmanTree<CharInfo> ht(_FileInfo, 256, CharInfo(0));
 
 	//保存各个字符的哈夫曼编码
-	string strCode = "";
+	string strCode;
 	HuffmanTreeNode<CharInfo>* pRoot = ht.GetRoot();
 	GeneratorHuffmanCode(pRoot, strCode);
 
@@ -98,20 +103,20 @@ HuffmanCompress::HuffmanCompress(string& fileName)
 	fseek(fIn, 0, SEEK_SET);//返回刚才打开文件的头部
 
 	FILE* fOut = fopen("test.hfc", "w");
-	char* writeBuff = new char[1024];//写入文件的缓存区。最多一次写入1024
+	char* pWriteBuff = new char[1024];//写入文件的缓存区。最多一次写入1024
 	size_t writeCount = 0;//表示1024字节缓冲中，已经保存的字节数（满足1024字节，就一次写入文件中）
 	char value = 0;//表示一个字节，用来保存8位二进制编码
 	int pos = 0;//表示一个字节八位中已经使用了几位
 
 	while (true)
 	{
-		size_t readSize = fread(readBuff, 1, 1024, fIn);
+		size_t readSize = fread(pReadBuff, 1, 1024, fIn);
 
 		if (readSize)
 		{
 			for (size_t i = 0; i < readSize; ++i)//遍历readBuff中的每一个字符
 			{
-				unsigned char ch = readBuff[i];//读入缓冲区中的一个字符
+				unsigned char ch = pReadBuff[i];//读入缓冲区中的一个字符
 
 				string& strCode = _FileInfo[ch]._strCode;//当前字符对于编码的引用
 				for (size_t i = 0; i < strCode.length(); ++i)
@@ -122,13 +127,13 @@ HuffmanCompress::HuffmanCompress(string& fileName)
 
 					if (8 == ++pos)//pos增加1，并且判断当前字节是否已经存满，若存满了8位，就往writeBuff缓冲区中写入value
 					{
-						writeBuff[writeCount] = value;
+						pWriteBuff[writeCount] = value;
 						++writeCount;//缓冲区中，已经存储的字节个数加1
 						pos = 0;//重新开始进行编码
 					}
 					if (1024 == writeCount)//判断缓冲区是否写满，写满就写入文件中
 					{
-						fwrite(writeBuff, 1, 1024, fOut);
+						fwrite(pWriteBuff, 1, 1024, fOut);
 						writeCount = 0;//重新开始计数
 					}
 				}
@@ -143,24 +148,25 @@ HuffmanCompress::HuffmanCompress(string& fileName)
 	if (pos)//pos大于0，表示正在填充，因为当pos=8时，会将pos置位0
 	{
 		value <<= (8 - pos);//剩余比特补上0，写入writeBuff缓冲区中
-		writeBuff[writeCount] = value;
+		pWriteBuff[writeCount] = value;
 		++writeCount;
 	}
 	//注意，pos和writeCount的判断语句，要分开写，不能写在一个判断中
 	if (writeCount)//同pos
 	{
-		fwrite(writeBuff, 1, writeCount, fOut);//有多少，写入多少
+		fwrite(pWriteBuff, 1, writeCount, fOut);//有多少，写入多少
 	}
 
 	//释放缓冲区
-	delete[] readBuff;
-	delete[] writeBuff;
+	delete[] pReadBuff;
+	delete[] pWriteBuff;
 
 	//关闭文件
 	fclose(fIn);
 	fclose(fOut);
 }
 
+//保存各个字符的哈夫曼编码
 void HuffmanCompress::GeneratorHuffmanCode(HuffmanTreeNode<CharInfo>* pRoot, string& strCode)
 {
 	if (nullptr == pRoot)
