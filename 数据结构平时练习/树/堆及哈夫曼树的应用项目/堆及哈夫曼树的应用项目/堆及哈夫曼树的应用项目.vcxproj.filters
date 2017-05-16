@@ -29,5 +29,8 @@
     <ClInclude Include="HuffmanTree.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="HuffmanCompress.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

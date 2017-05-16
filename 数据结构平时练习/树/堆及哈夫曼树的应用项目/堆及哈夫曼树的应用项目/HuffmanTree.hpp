@@ -34,6 +34,14 @@ public:
 		_CreateHuffmanTree(array, size, invalid);
 	}
 
+	Node*& GetRoot()
+	{
+		return _pRoot;
+	}
+	const Node*& GetRoot() const
+	{
+		return _pRoot;
+	}
 private:
 	void _CreateHuffmanTree(const T array[], size_t size, const T& invalid);
 private:
@@ -56,7 +64,8 @@ void HuffmanTree<T>::_CreateHuffmanTree(const T array[], size_t size, const T& i
 
 	if (1 == size)//当只有一个节点的时候
 	{
-		_pRoot = new Node(array[0]);
+		if (array[0] != invalid)
+			_pRoot = new Node(array[0]);
 		return ;
 	}
 	
@@ -93,4 +102,11 @@ void HuffmanTree<T>::_CreateHuffmanTree(const T array[], size_t size, const T& i
 }
 
 #endif //_HUFFMANTREE_H_
+
+
+void Test2()
+{
+	int arr[] = { 1,3,5,7 };
+	HuffmanTree<int> ht(arr, sizeof(arr) / sizeof(arr[0]), -1);
+}
 

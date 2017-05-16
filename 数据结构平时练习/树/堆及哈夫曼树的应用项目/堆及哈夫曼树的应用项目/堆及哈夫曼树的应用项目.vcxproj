@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="heap.hpp" />
+    <ClInclude Include="HuffmanCompress.hpp" />
     <ClInclude Include="HuffmanTree.hpp" />
     <ClInclude Include="priorityQueue.hpp" />
   </ItemGroup>
