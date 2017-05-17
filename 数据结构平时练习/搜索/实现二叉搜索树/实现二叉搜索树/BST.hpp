@@ -121,13 +121,18 @@ void BinarySearchTree<K, V>::Insert_Nor(const K& key, const V& value)
 	Node* pParent = nullptr;
 	while (pCur)
 	{
-		pParent = pCur;
 		if (key == pCur->_key)
-			return;
+			break;
 		else if (key < pCur->_key)
+		{
+			pParent = pCur;
 			pCur = pCur->_pLeft;
+		}
 		else
+		{
+			pParent = pCur;
 			pCur = pCur->_pRight;
+		}
 	}
 	
 	if (key < pParent->_key)
@@ -156,7 +161,93 @@ void BinarySearchTree<K, V>::_Insert(Node*& pRoot, const K& key, const V& value)
 template <typename K, typename V>
 bool BinarySearchTree<K, V>::Remove_Nor(const K& key)
 {
+	//空树
+	if (nullptr == _pRoot)
+		return false;
 	
+	//只有一个根结点（不需使用双亲结点）
+	if ((nullptr == _pRoot->_pLeft) && (nullptr == _pRoot->_pRight))
+	{
+		if (key == _pRoot->_key)//找到
+		{
+			delete _pRoot;
+			_pRoot = nullptr;
+			return true;
+		}
+		else//未找到
+			return false;
+	}
+
+	//存在多个节点（需要使用双亲结点：必须双亲结点自己改变其左右孩子指向，pCur无法改变，最多删除自己变为空，双亲还是指向pCur原来位置）
+	//1，未找到。
+	//2，找到（1）没有左右子树（2）只有左子树（3）只有右子树（4）存在左右子树
+	Node* pCur = _pRoot;//寻找值为key的节点
+	Node* pParent = nullptr;//pCur的双亲节点
+	while (pCur)
+	{
+		if (key == pCur->_key)
+			break;
+		else if (key < pCur->_key)
+		{
+			pParent = pCur;
+			pCur = pCur->_pLeft;
+		}
+		else 
+		{
+			pParent = pCur;
+			pCur = pCur->_pRight;
+		}
+	}
+
+	if (nullptr == pCur)
+		return false;//未找到
+
+	if ((nullptr == pCur->_pLeft) && (nullptr == pCur->_pRight))	//是一个叶子结点
+	{	//无需考虑，该结点是根结点的情况，前面已经考虑只有一个节点的情况了
+		if (pParent->_pLeft == pCur)
+			pParent->_pLeft = nullptr;
+		else
+			pParent->_pRight = nullptr;
+	}
+	else if (nullptr == pCur->_pRight)   //只有左孩子
+	{	//1,pCur是根结点2，pCur不是根结点
+		if (_pRoot == pCur)   //pCur是根节点
+			_pRoot = pCur->_pLeft;//左孩子作为新根
+		else   //pCur不是根结点,将其双亲结点指向它的左子树
+		{
+			if (pParent->_pLeft == pCur)//pCur是pParent的左子树
+				pParent->_pLeft = pCur->_pLeft;
+			else
+				pParent->_pRight = pCur->_pLeft;//pCur是pParent的右子树
+		}
+	}
+	else if (nullptr == pCur->_pLeft)	//只有右孩子
+	{	//1,pCur是根结点2，pCur不是根结点
+		if (_pRoot == pCur)   //pCur是根节点
+			_pRoot = pCur->_pRight;//右孩子作为新根
+		else   //pCur不是根结点,将其双亲结点指向它的左子树
+		{
+			if (pParent->_pLeft == pCur)//pCur是pParent的左子树
+				pParent->_pLeft = pCur->_pRight;
+			else
+				pParent->_pLeft = pCur->_pRight;//pCur是pParent的右子树
+		}
+	}
+	else    //存在左右子树（根结点大于左子树中全部节点，小于右子树中全部节点，可以将左子树中最大结点或右子树中最小节点代替，然后删除子树中的那个结点）
+	{
+		//找到右子树中最小的节点（右子树中最左边的叶子结点）
+		pCur = pCur->_pRight;
+		while (pCur->_pLeft)
+			pCur = pCur->_pLeft;
+
+		std::swap(pCur->_key, _pRoot->_key);
+		std::swap(pCur->_value, _pRoot->_value);
+	}
+
+	delete pCur;
+	pCur = nullptr;
+
+	return true;
 }
 
 #endif //_BST_H_
