@@ -23,5 +23,8 @@
     <ClInclude Include="BST.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="BSTaddIterator.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

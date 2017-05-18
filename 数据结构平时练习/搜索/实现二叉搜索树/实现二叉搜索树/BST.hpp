@@ -60,7 +60,7 @@ private:
 	bool _Find(Node* pRoot, const K& key);
 	void _Insert(Node*& pRoot, const K& key, const V& value);
 	void _InOrder(Node* pRoot);
-	bool _Remove(Node* pRoot, const K& key);
+	bool _Remove(Node*& pRoot, const K& key);
 private:
 	Node* _pRoot;
 };
@@ -178,7 +178,7 @@ bool BinarySearchTree<K, V>::Remove_Nor(const K& key)
 			return false;
 	}
 
-	//存在多个节点（需要使用双亲结点：必须双亲结点自己改变其左右孩子指向，pCur无法改变，最多删除自己变为空，双亲还是指向pCur原来位置）
+	//存在多个节点（需要使用双亲结点：必须双亲结点自己改变其左右孩子指向，pCur是临时变量，只能改变自身内容和释放内容所指内存。无法改变，所以对象的地址，最多删除自己变为空，双亲还是指向pCur原来位置）
 	//1，未找到。
 	//2，找到（1）没有左右子树（2）只有左子树（3）只有右子树（4）存在左右子树
 	Node* pCur = _pRoot;//寻找值为key的节点
@@ -248,6 +248,65 @@ bool BinarySearchTree<K, V>::Remove_Nor(const K& key)
 	pCur = nullptr;
 
 	return true;
+}
+
+template <typename K, typename V>
+bool BinarySearchTree<K, V>::_Remove(Node*& pRoot, const K& key)
+{
+	//空树
+	if (nullptr == pRoot)
+		return false;
+
+	// 只剩一个结点
+	if ((nullptr == pRoot->_pLeft) && (nullptr == pRoot->_pRight))
+		if (key == pRoot->_key)
+		{
+			delete pRoot;
+			pRoot = nullptr;
+			return true;
+		}
+		else
+			return false;
+
+	//多个节点
+	if (key < pRoot->_key)
+		return _Remove(pRoot->_pLeft, key);
+	else if (key > pRoot->_key)
+		return _Remove(pRoot->_pRight, key);
+	else //key == pRoot->_key
+	{
+		Node* pCur = pRoot;//指向需要被删除的节点
+		if (nullptr == pRoot->_pRight)//多个节点，该结点只有左子树
+		{
+			pRoot = pRoot->_pLeft;
+		}
+		else if (nullptr == pRoot->_pLeft)//多个节点，该结点只有右子树
+		{
+			pRoot = pRoot->_pRight;
+		}
+		else	//多个节点，该结点含有左右子树
+		{
+			//找到右子树中最小的节点（位于右子树中的最左边叶子节点）
+			Node* pParent = pCur;//指向需要删除节点的双亲
+			pCur = pCur->_pRight;
+			while (pCur->_pLeft)
+			{
+				pParent = pCur;
+				pCur = pCur->_pLeft;
+			}
+			//交换内容，之后删除节点
+			std::swap(pRoot->_key, pCur->_key);
+			std::swap(pRoot->_value, pCur->_value);
+
+			if (pParent->_pLeft == pCur)
+				pParent->_pLeft = nullptr;
+			else
+				pParent->_pRight = nullptr;
+		}
+		delete pCur;
+		pCur = nullptr;
+		return true;	
+	}
 }
 
 #endif //_BST_H_
