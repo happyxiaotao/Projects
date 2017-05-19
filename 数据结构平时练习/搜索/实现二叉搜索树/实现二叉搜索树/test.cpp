@@ -67,6 +67,8 @@ void Test3()
 
 	for (int i = 0; i < 10; ++i)
 		bst.Insert_Nor(arr[i], 0);
+	
+	
 	it = bst.Begin();
 
 	while (it != bst.End())
@@ -74,5 +76,18 @@ void Test3()
 		cout << it->_key << " ";
 		++it;
 	}
+	cout << endl;
+
+	for (int i = 0; i < 10; ++i)
+		bst.Remove_Nor(i+1);
+
+	BSTNode<int, int>* pHead = bst.ToList();
+
+	while (pHead)
+	{
+		cout << pHead->_key << " ";
+		pHead = pHead->_pRight;
+	}
+
 	cout << endl;
 }

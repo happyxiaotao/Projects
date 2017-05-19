@@ -147,7 +147,7 @@ class BinarySearchTree
 {
 public:
 	typedef BSTNode<K, V> Node;
-	typedef Iterator<K, V, K&, K*> iterator;
+	typedef Iterator<K, V, K&, K*> iterator;//迭代器需要公有，使得外界访问
 public:
 	BinarySearchTree()
 	{
@@ -175,6 +175,7 @@ public:
 		cout << endl;
 	}
 
+public:	//迭代器函数
 	iterator Begin()
 	{
 		return iterator(_pHead->_pLeft);
@@ -183,14 +184,31 @@ public:
 	{
 		return iterator(_pHead);
 	}
+public://将二叉搜索树转化为有序双向链表
+	Node* ToList()
+	{
+		//链表中某一结点的后继，是中序遍历中该节点遍历访问的下一节点，将该结点的右子树指向中序访问的下一节点即可
+		Node* pHead = GetRoot();//链表的头结点
+		Node* pPrev = nullptr;//保存中序遍历中的pHead的前一个节点
+		
+		_ToList(pHead, pPrev);//注意pPrev是引用类型
+
+		if (nullptr != pHead)//注意，pHead可能是空的情况
+		{
+			while (pHead->_pLeft)//找到链表的头结点（最小的节点）（在_ToList函数中，只改变了右子树的指向，未改变左子树的指向）
+				pHead = pHead->_pLeft;
+		}
+		return pHead; //返回链表头结点
+	}
 
 private:
 	bool _Find(Node* pRoot, const K& key);
 	void _InOrder(Node* pRoot);
-	Node* FindMin();
-	Node* FindMax();
+	Node* FindMin();//获取最大值节点
+	Node* FindMax();//获取最小值节点
+	void _ToList(Node* pRoot, Node*& pPrev);//注意pPrev是引用类型
 private:
-	Node* _pHead;
+	Node* _pHead;//头结点（相当于迭代器中End()指向的节点，左右孩子分别指向树中最小最大结点，双亲结点是树的根结点）
 };
 
 template <typename K, typename V>
@@ -415,6 +433,22 @@ BSTNode<K, V>* BinarySearchTree<K, V>::FindMax()
 	}
 
 	return pMax;
+}
+
+template <typename K, typename V>
+void BinarySearchTree<K, V>::_ToList(Node* pRoot, Node*& pPrev)//注意pPrev是引用类型
+{//链表中某一结点的后继，是中序遍历中该节点遍历访问的下一节点，将该结点的右子树指向中序访问的下一节点即可
+	if (nullptr == pRoot)
+		return;
+
+	_ToList(pRoot->_pLeft, pPrev);//还未开始访问，只是在寻找树中第一个节点，所以pPrev不变
+
+	if (nullptr != pPrev)//pPrev不nullptr说明此时正在访问第一个节点（即链表的头结点，没有前驱）
+		pPrev->_pRight = pRoot;
+
+	pPrev = pRoot;//更新pPrev
+
+	_ToList(pRoot->_pRight, pPrev);
 }
 
 #endif //_BST_H_
