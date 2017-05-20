@@ -1,13 +1,18 @@
-﻿生成启动时间为 2017/5/4 16:58:48。
+﻿生成启动时间为 2017/5/20 16:50:05。
      1>项目“E:\documents\visual studio 2015\Projects\C++ test\C test\C test.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          D:\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
          test.cpp
-       Link:
-         D:\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\documents\visual studio 2015\Projects\C++ test\Debug\C test.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"E:\documents\visual studio 2015\Projects\C++ test\Debug\C test.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\documents\visual studio 2015\Projects\C++ test\Debug\C test.lib" /MACHINE:X86 Debug\test.obj
-         C test.vcxproj -> E:\documents\visual studio 2015\Projects\C++ test\Debug\C test.exe
-     1>已完成生成项目“E:\documents\visual studio 2015\Projects\C++ test\C test\C test.vcxproj”(Build 个目标)的操作。
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(43): warning C4267: “=”: 从“size_t”转换到“unsigned char”，可能丢失数据
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(124): warning C4244: “参数”: 从“LongType”转换到“int”，可能丢失数据
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(50): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(283): error C3861: “GetTickCount”: 找不到标识符
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(288): error C3861: “GetTickCount”: 找不到标识符
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(291): error C3861: “GetTickCount”: 找不到标识符
+     1>e:\documents\visual studio 2015\projects\c++ test\c test\filecompress.h(296): error C3861: “GetTickCount”: 找不到标识符
+     1>已完成生成项目“E:\documents\visual studio 2015\Projects\C++ test\C test\C test.vcxproj”(Build 个目标)的操作 - 失败。
 
-已成功生成。
+生成失败。
 
-已用时间 00:00:02.84
+已用时间 00:00:01.88

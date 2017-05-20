@@ -79,7 +79,7 @@ void HuffmanTree<T>::_CreateHuffmanTree(const T array[], size_t size, const T& i
 		}
 	}
 
-	Node* pParent = nullptr;//临时双亲结点
+	Node* pParent = hp.Top();//临时双亲结点（当树中只有一个节点时候，下面会跳过循环，直接将根节点指向双亲结点，即唯一的那个节点）
 
 	//当有多个节点时
 	while (1 < hp.Size())//当小堆中只剩下一个元素时，即为哈夫曼树根结点，哈夫曼树构建完毕

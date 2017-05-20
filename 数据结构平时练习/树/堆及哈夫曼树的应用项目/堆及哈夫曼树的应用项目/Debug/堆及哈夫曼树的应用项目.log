@@ -1,9 +1,10 @@
-﻿生成启动时间为 2017/5/19 19:33:44。
+﻿生成启动时间为 2017/5/20 16:36:28。
      1>项目“E:\documents\visual studio 2015\Projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\堆及哈夫曼树的应用项目\堆及哈夫曼树的应用项目.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          D:\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
          test.cpp
-     1>e:\documents\visual studio 2015\projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\堆及哈夫曼树的应用项目\huffmancompress.hpp(247): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\堆及哈夫曼树的应用项目\huffmancompress.hpp(214): warning C4018: “<”: 有符号/无符号不匹配
+     1>e:\documents\visual studio 2015\projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\堆及哈夫曼树的应用项目\huffmancompress.hpp(286): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
        Link:
          D:\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\documents\visual studio 2015\Projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\Debug\堆及哈夫曼树的应用项目.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"E:\documents\visual studio 2015\Projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\Debug\堆及哈夫曼树的应用项目.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\documents\visual studio 2015\Projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\Debug\堆及哈夫曼树的应用项目.lib" /MACHINE:X86 Debug\test.obj
          堆及哈夫曼树的应用项目.vcxproj -> E:\documents\visual studio 2015\Projects\数据结构平时练习\树\堆及哈夫曼树的应用项目\Debug\堆及哈夫曼树的应用项目.exe
@@ -11,4 +12,4 @@
 
 已成功生成。
 
-已用时间 00:00:05.34
+已用时间 00:00:04.72

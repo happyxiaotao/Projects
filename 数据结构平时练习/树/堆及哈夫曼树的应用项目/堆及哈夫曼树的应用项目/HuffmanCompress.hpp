@@ -41,6 +41,12 @@ public:
 	string _strCode;
 };
 
+/*
+已知存在问题：
+1，压缩不了汉字
+2，当文件字符够多时，不了最后面的一些字符
+3，当文件只有一个字符时，解压不了（压缩文件为空）
+*/
 class HuffmanCompress
 {
 public:
@@ -149,10 +155,12 @@ void HuffmanCompress::UnCompress()
 	effectCount = atoi(strEffectCount.c_str());
 	
 	//获取字符以及它们各自个数，还有总的有效字符个数（因为压缩时，不满足8位的后面补上0）
+	size_t effectCountTemp = effectCount;
 	size_t TotalCount = 0;
-	while (effectCount)
+	char curCh = 0;//最近一次获取的有效字符
+	while (effectCountTemp)
 	{
-		char curCh = fgetc(fIn);//获取当前字符
+		curCh = fgetc(fIn);//获取当前字符
 		fgetc(fIn);//获取逗号
 		size_t count = 0;//该字符出现次数
 		string chCount;//保存文件中表示字符出现个数的字符串
@@ -163,7 +171,7 @@ void HuffmanCompress::UnCompress()
 		_FileInfo[curCh]._count = count;
 
 		TotalCount += count;
-		--effectCount;
+		--effectCountTemp;
 	}
 
 
@@ -182,9 +190,40 @@ void HuffmanCompress::UnCompress()
 	else
 		cout << "Open file " << fileName.c_str() << " success!" << endl;
 
+
+
 	char* readBuff = new char[1024];//一次最多读取1024个字节（提高读写效率）
 	char* writeBuff = new char[1024];//一次对多写入1024个字节
 	size_t writeSize = 0;//写入缓冲区writeBuff中字节个数
+
+	//当文件中只用一种字符时
+	if (1 == effectCount)
+	{
+		size_t TotalCountTemp = TotalCount;
+		while (true)
+		{
+			if (TotalCountTemp > 1024)
+			{
+				for (int i = 0; i < 1024; ++i)
+					writeBuff[i] = curCh;
+				fwrite(writeBuff, 1, 1024, fOut);
+				TotalCountTemp -= 1024;
+			}
+			else
+			{
+				for (int i = 0; i < TotalCountTemp; ++i)
+					writeBuff[i] = curCh;
+				fwrite(writeBuff, 1, TotalCountTemp, fOut);
+				break;
+			}
+		}
+
+		delete[] writeBuff;
+		delete[] readBuff;
+		fclose(fIn);
+		fclose(fOut);
+		return;
+	}
 
 	HuffmanTreeNode<CharInfo>* pCur = ht.GetRoot();//指向当前树中的位置
 	while (true)
@@ -225,10 +264,10 @@ void HuffmanCompress::UnCompress()
 		}
 		else
 			break;
-
-		if (writeSize)//writeBuff缓冲区中还有数据，没有写入文件中
-			fwrite(writeBuff, 1, writeSize, fOut);
 	}
+
+	if (writeSize)//writeBuff缓冲区中还有数据，没有写入文件中
+		fwrite(writeBuff, 1, writeSize, fOut);
 
 	//释放缓冲区
 	delete[] readBuff;
