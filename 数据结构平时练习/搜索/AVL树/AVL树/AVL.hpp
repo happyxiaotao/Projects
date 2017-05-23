@@ -132,10 +132,12 @@ bool AVLTree<K, V>::Insert(const K& key, const V& value)
 				if (1 == subL->_bf)//subL左边高 ，右单旋的情况
 				{
 					_RotateR(pParent);
+					return true;
 				}
 				else //-1 == subL->_bf,（没有0 == subL->_bf的可能） subL右边较高, 左右双旋的情况
 				{
 					_RotateLR(pParent);
+					return true;
 				}
 			}
 			else
@@ -157,19 +159,17 @@ bool AVLTree<K, V>::Insert(const K& key, const V& value)
 				//........
 				Node* subR = pCur;
 
-				if (1 == subR->_bf)//subL左边较高
+				if (1 == subR->_bf)//subL左边较高，插入点在左边
 				{
-					if (1 == subR->_pLeft->_bf)//插入节点是sub的左子节点的左子节点（右单旋）
-						_RotateR(pParent);
-					else    //插入节点是sub的左子节点的右子节点（右左单选）
-						_RotateRL(pParent);
+					//插入节点是sub的左子节点的右子节点（右左双旋）
+					_RotateRL(pParent);
+					return true;
 				}
 				else // -1 == subR->_bf. subL右边较高（没有0 == subL->_bf的可能）
 				{
-					if (1 == subR->_pRight->_bf) //插入节点是sub的右子节点的左子节点（左右双选）
-						_RotateLR(pParent);
-					else //插入节点是sub的右子节点的右子节点（左单旋）
-						_RotateL(pParent);
+					//插入节点是sub的右子节点的右子节点（左单旋）
+					_RotateL(pParent);
+					return true;
 				}
 			}
 		}
@@ -193,62 +193,69 @@ bool AVLTree<K, V>::Insert(const K& key, const V& value)
 template <typename K, typename V>
 void AVLTree<K, V>::_RotateL(Node* pParent)
 {
-	Node* subR = pParent->_pLeft;
-	Node* subRL = subR->_pLeft;
+	Node* pSubR = pParent->_pRight;
+	Node* pSubRL = pSubR->_pLeft;
+
+	pParent->_pRight = pSubRL;
+	pSubR->_pLeft = pParent;
+	if (pSubRL)//如果subRL存在
+		pSubRL->_pParent = pParent;
 
 	Node* pGrandParent = pParent->_pParent;//查看pParent是否是根结点
+	pParent->_pParent = pSubR;
 
-	pParent->_pRight = subRL;
-	if (subRL)//如果subRL存在
-		subRL->_pParent = pParent;
-
-	subR->_pLeft = pParent;
-	pParent->_pParent = subR;
-
+	//subR的双亲指向pParent的双亲
+	pSubR->_pParent = pGrandParent;
 	if (pGrandParent)//如果pParent存在双亲结点（即不是根结点）
 	{	//将pParent的双亲结点重新指向subR
 		if (pParent == pGrandParent->_pLeft)
-			pParent->_pLeft = subR;
+			pGrandParent->_pLeft = pSubR;
 		else
-			pParent->_pRight = subR;
-	}	
-	//subR的双亲指向pParent的双亲
-	subR->_pParent = pGrandParent;
+			pGrandParent->_pRight = pSubR;
+	}
+	else
+	{
+		_pRoot = pSubR;
+	}
 
 	//单旋转之后，pParent和subR的平衡因子置为0
 	pParent->_bf = 0;
-	subR->_bf = 0;
+	pSubR->_bf = 0;
 }
 
 //右单旋
 template <typename K, typename V>
 void AVLTree<K, V>::_RotateR(Node* pParent)
 {
-	Node* subL = pParent->_pLeft;
-	Node* subLR = subL->_pRight;
+	Node* pSubL = pParent->_pLeft;
+	Node* pSubLR = pSubL->_pRight;
+
+	pParent->_pLeft = pSubLR;
+	pSubL->_pRight = pParent;
+
+
+	if(pSubLR)//如果subLR存在
+		pSubLR->_pParent = pParent;
 
 	Node* pGrandParent = pParent->_pParent;//查看pParent是否是根结点
+	pParent->_pParent = pSubL;
 
-	pParent->_pLeft = subLR;
-	if(subLR)//如果subLR存在
-		subLR->_pParent = pParent;
-
-	subL->_pRight = pParent;
-	pParent->_pParent = subL;
-
+	//subR的双亲指向pParent的双亲
+	pSubL->_pParent = pGrandParent;
 	if (pGrandParent)//如果pParent存在双亲结点（即不是根结点）
 	{	//将pParent的双亲结点重新指向subL
 		if (pParent == pGrandParent->_pLeft)
-			pParent->_pLeft = subL;
+			pGrandParent->_pLeft = pSubL;
 		else
-			pParent->_pRight = subL;
+			pGrandParent->_pRight = pSubL;
 	}
-	//subR的双亲指向pParent的双亲
-	subL->_pParent = pGrandParent;
-
+	else
+	{
+		_pRoot = pSubL;
+	}
 	//单旋转之后，pParent和subR的平衡因子置为0
 	pParent->_bf = 0;
-	subL->_bf = 0;
+	pSubL->_bf = 0;
 }
 
 //先右后左旋转
@@ -268,8 +275,8 @@ void AVLTree<K, V>::_RotateRL(Node* pParent)
 	else //-1 == subRL->_bf pNewNode在subRL的右子树上
 		flag = -1;
 
-	_RotateL(pParent->_pRight);
-	_RotateR(pParent);
+	_RotateR(subR);
+	_RotateL(pParent);
 
 	//更新平衡因子（不需要考虑subRL，因为在单旋转之后，其平衡因子为0，不需改变）
 	if (0 == flag)//subRL是刚插入的节点pNewNode
@@ -303,12 +310,12 @@ void AVLTree<K, V>::_RotateLR(Node* pParent)
 		flag = 0;
 	else if (1 == subLR->_bf)//pNewNode在subLR的左子树中
 		flag = 1;
-	else //-1 == subLR->_bf pNewNode在subLR的右子树上
+	else //-1 == subRL->_bf pNewNode在subLR的右子树上
 		flag = -1;
 
 
-	_RotateR(subL);
-	_RotateL(pParent);
+	_RotateL(subL);
+	_RotateR(pParent);
 
 
 	//更新平衡因子（不需要考虑subLR，因为在单旋转之后，其平衡因子为0，不需改变）
@@ -319,13 +326,13 @@ void AVLTree<K, V>::_RotateLR(Node* pParent)
 	}
 	else if (1 == flag)//pNewNode在subLR的左子树中
 	{
-		subL->_bf = 0;
-		pParent->_bf = -1;
+		subL->_bf = -1;
+		pParent->_bf = 0;
 	}
 	else //-1 == flag pNewNode在subLR的右子树上
 	{
-		subL->_bf = 1;
-		pParent->_bf = 0;
+		subL->_bf = -1;
+		pParent->_bf = 1;
 	}
 }
 
@@ -340,7 +347,7 @@ bool AVLTree<K, V>::_IsBalanceTree(Node* pRoot)
 	size_t leftHeight = _Height(pRoot->_pLeft);
 	size_t rightHeight = _Height(pRoot->_pRight);
 
-	if (((leftHeight - rightHeight) != pRoot->_bf) || (abs(pRoot->_bf) > 2))
+	if (((leftHeight - rightHeight) != pRoot->_bf) || (abs(pRoot->_bf) > 1))
 		return false;
 
 	return (_IsBalanceTree(pRoot->_pLeft) && _IsBalanceTree(pRoot->_pRight));
