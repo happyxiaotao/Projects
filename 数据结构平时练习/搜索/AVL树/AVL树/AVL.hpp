@@ -157,13 +157,19 @@ bool AVLTree<K, V>::Insert(const K& key, const V& value)
 				//........
 				Node* subR = pCur;
 
-				if (1 == subR->_bf)//subL左边较高， 左单旋的情况
+				if (1 == subR->_bf)//subL左边较高
 				{
-					_RotateL(pParent);
+					if (1 == subR->_pLeft->_bf)//插入节点是sub的左子节点的左子节点（右单旋）
+						_RotateR(pParent);
+					else    //插入节点是sub的左子节点的右子节点（右左单选）
+						_RotateRL(pParent);
 				}
-				else // -1 == subR->_bf. subL右边较高（没有0 == subL->_bf的可能）， 左右单旋的情况
+				else // -1 == subR->_bf. subL右边较高（没有0 == subL->_bf的可能）
 				{
-					_RotateLR(pParent);
+					if (1 == subR->_pRight->_bf) //插入节点是sub的右子节点的左子节点（左右双选）
+						_RotateLR(pParent);
+					else //插入节点是sub的右子节点的右子节点（左单旋）
+						_RotateL(pParent);
 				}
 			}
 		}
@@ -193,7 +199,8 @@ void AVLTree<K, V>::_RotateL(Node* pParent)
 	Node* pGrandParent = pParent->_pParent;//查看pParent是否是根结点
 
 	pParent->_pRight = subRL;
-	subRL->_pParent = pParent;
+	if (subRL)//如果subRL存在
+		subRL->_pParent = pParent;
 
 	subR->_pLeft = pParent;
 	pParent->_pParent = subR;
@@ -223,7 +230,8 @@ void AVLTree<K, V>::_RotateR(Node* pParent)
 	Node* pGrandParent = pParent->_pParent;//查看pParent是否是根结点
 
 	pParent->_pLeft = subLR;
-	subLR->_pParent = pParent;
+	if(subLR)//如果subLR存在
+		subLR->_pParent = pParent;
 
 	subL->_pRight = pParent;
 	pParent->_pParent = subL;
@@ -247,16 +255,111 @@ void AVLTree<K, V>::_RotateR(Node* pParent)
 template <typename K, typename V>
 void AVLTree<K, V>::_RotateRL(Node* pParent)
 {
-	_RotateR(pParent->_pRight);
-	_RotateL(pParent);
+	/*可以使用k1,k2,k3标记。参考《数据结构与算法分析C++语言描述版》*/
+	Node* subR = pParent->_pRight;
+	Node* subRL = subR->_pLeft;
+
+	int flag = 0;//记录pNewNode与subRL的关系
+
+	if (0 == subRL->_bf)//subRL是刚插入的节点pNewNode
+		flag = 0;
+	else if (1 == subRL->_bf)//pNewNode在subRL的左子树中
+		flag = 1;
+	else //-1 == subRL->_bf pNewNode在subRL的右子树上
+		flag = -1;
+
+	_RotateL(pParent->_pRight);
+	_RotateR(pParent);
+
+	//更新平衡因子（不需要考虑subRL，因为在单旋转之后，其平衡因子为0，不需改变）
+	if (0 == flag)//subRL是刚插入的节点pNewNode
+	{
+		subR->_bf = 0;
+		pParent->_bf = 0;
+	}
+	else if (1 == flag)//pNewNode在subRL的左子树中
+	{
+		subR->_bf = -1;
+		pParent->_bf = 0;
+	}
+	else //-1 == flag pNewNode在subRL的右子树上
+	{
+		subR->_bf = 0;
+		pParent->_bf = 1;
+	}
 }
 
 //先左后右旋转
 template <typename K, typename V>
 void AVLTree<K, V>::_RotateLR(Node* pParent)
 {
-	_RotateR(pParent->_pRight);
+	/*可以使用k1,k2,k3标记。参考《数据结构与算法分析C++语言描述版》*/
+	Node* subL = pParent->_pLeft;
+	Node* subLR = subL->_pRight;
+
+	int flag = 0;//记录pNewNode与subLR的关系
+
+	if (0 == subLR->_bf)//subLR是刚插入的节点pNewNode
+		flag = 0;
+	else if (1 == subLR->_bf)//pNewNode在subLR的左子树中
+		flag = 1;
+	else //-1 == subLR->_bf pNewNode在subLR的右子树上
+		flag = -1;
+
+
+	_RotateR(subL);
 	_RotateL(pParent);
+
+
+	//更新平衡因子（不需要考虑subLR，因为在单旋转之后，其平衡因子为0，不需改变）
+	if (0 == flag)//subLR是刚插入的节点pNewNode
+	{
+		subL->_bf = 0;
+		pParent->_bf = 0;
+	}
+	else if (1 == flag)//pNewNode在subLR的左子树中
+	{
+		subL->_bf = 0;
+		pParent->_bf = -1;
+	}
+	else //-1 == flag pNewNode在subLR的右子树上
+	{
+		subL->_bf = 1;
+		pParent->_bf = 0;
+	}
+}
+
+
+//判断树是否是平衡树
+template <typename K, typename V>
+bool AVLTree<K, V>::_IsBalanceTree(Node* pRoot)
+{
+	if (nullptr == pRoot)//空结点，是平衡的
+		return true;
+
+	size_t leftHeight = _Height(pRoot->_pLeft);
+	size_t rightHeight = _Height(pRoot->_pRight);
+
+	if (((leftHeight - rightHeight) != pRoot->_bf) || (abs(pRoot->_bf) > 2))
+		return false;
+
+	return (_IsBalanceTree(pRoot->_pLeft) && _IsBalanceTree(pRoot->_pRight));
+}
+
+//获取树的高度
+template <typename K, typename V>
+size_t AVLTree<K, V>::_Height(Node* pRoot)
+{
+	if (nullptr == pRoot)//空树
+		return 0;
+
+	if ((nullptr == pRoot->_pLeft) && (nullptr == pRoot->_pRight))//叶子结点
+		return 1;
+
+	size_t leftHeight = _Height(pRoot->_pLeft);//左子树高度
+	size_t rightHeight = _Height(pRoot->_pRight);//右子树高度
+
+	return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;//返回左右子树中的最大值+1
 }
 
 #endif //_AVL_H_

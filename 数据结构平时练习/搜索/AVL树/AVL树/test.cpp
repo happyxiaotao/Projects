@@ -8,6 +8,8 @@ void Test1();
 int main()
 {
 	Test1();
+
+	system("pause");
 	return 0;
 }
 
@@ -21,5 +23,9 @@ void Test1()
 	{
 		avl.Insert(array[i], 0);
 	}
+
 	avl.InOrder();
+
+	cout << avl.IsBalanceTree() << endl;
+
 }
