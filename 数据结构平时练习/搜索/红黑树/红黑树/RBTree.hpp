@@ -150,8 +150,8 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 				pUncle->_color = BLACK;
 				pGrandParent->_color = RED;
 
-				//向上调整，为下次循环做准备
-				pCur = pGrandParent;
+				pCur = pGrandParent;//向上调整，为下次循环做准备
+				pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲
 			}
 			else //nullptr == pUncle || BLACK == pUncle->_color   pUncle不存在或者存在且颜色为黑
 			{
@@ -163,7 +163,12 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 					pParent->_color = BLACK;
 					pGrandParent->_color = RED;
 
-					pCur = pParent;//向上调整，为下次循环做准备，指向新的根结点
+					//调整完后，应该直接退出（当前树，已经满足红黑树性质，而该树意外的树本来就是满足红黑树性质，所以，直接退出，----调试半天）
+					//pCur = pParent;//向上调整，为下次循环做准备，指向新的根结点
+					//pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲 
+					//若添加上述代码,则有课能pParent的双亲结点颜色是red，继续进入循环，发生不可预料的意外
+
+					return true;
 				}
 				else //pCur == pParent->_pLeft.  cur,p,g不在同一条直线上	//情况五
 				{
@@ -172,8 +177,6 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 					 //此时不用交换颜色，变为 情况四，在下次循环中处理
 
 					std::swap(pParent, pCur);//注意交换，pParent，pCur的内容，方便情况4处理
-
-					break;
 				}
 			}
 
@@ -182,16 +185,16 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 		{
 			Node* pUncle = pGrandParent->_pLeft;//cur的叔叔节点u
 
-			if (RED == pUncle->_color) //情况三
+			if (pUncle && (RED == pUncle->_color)) //情况三
 			{	//p与u调整为BLACK，g调整为RED
 				pParent->_color = BLACK;
 				pUncle->_color = BLACK;
 				pGrandParent->_color = RED;
 
-				//向上调整，为下次循环做准备
-				pCur = pGrandParent;
+				pCur = pGrandParent;			//向上调整，为下次循环做准备
+				pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲
 			}
-			else //BLACK == pUncle->_color
+			else //pUncle = nullptr || BLACK == pUncle->_color
 			{
 				if (pCur == pParent->_pRight)//cur，p都处于各自双亲的右子树（cur, p, g在同一条直线）//情况四
 				{
@@ -200,8 +203,9 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 					 //p与g颜色互换
 					pParent->_color = BLACK;
 					pGrandParent->_color = RED;
-
-					pCur = pParent;//向上调整，为下次循环做准备，指向新的根结点
+					
+					//退出原因，见上面 情况4解释
+					return true;
 				}
 				else //pCur == pParent->_pLeft.  cur,p,g不在同一条直线上	//情况五
 				{
@@ -210,14 +214,10 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 					 //此时不用交换颜色，变为 情况四，在下次循环中处理
 
 					std::swap(pParent, pCur);//注意交换，pParent，pCur的内容，方便情况4处理
-					break;
 				}
 			}
 
 		}
-
-		//向上调整，pParent指向新的根结点pCur的双亲
-		pParent = pCur->_pParent;
 	}
 
 	_pRoot->_color = BLACK;//不管怎么调整，根节点始终是黑色，而且黑色可以连续
@@ -243,7 +243,7 @@ void RBTree<K, V>::_TotalR(Node* pParent)
 	pSubL->_pParent = pGrandParent;
 	if (pGrandParent)
 	{
-		if (pGrandParent->_pLeft = pParent)
+		if (pGrandParent->_pLeft == pParent)//注意，使用==，不要忘记写出=（调试半天）
 			pGrandParent->_pLeft = pSubL;
 		else
 			pGrandParent->_pRight = pSubL;
@@ -271,7 +271,7 @@ void RBTree<K, V>::_TotalL(Node* pParent)
 	pSubR->_pParent = pGrandParent;
 	if (pGrandParent)
 	{
-		if (pGrandParent->_pLeft = pParent)
+		if (pGrandParent->_pLeft == pParent)//注意，使用==，不要忘记写出=
 			pGrandParent->_pLeft = pSubR;
 		else
 			pGrandParent->_pRight = pSubR;
@@ -332,7 +332,7 @@ bool RBTree<K, V>::_CheckRBTree(const Node* pRoot, size_t blackCount, size_t k)
 
 	if (BLACK == pRoot->_color)//当前节点颜色是黑色
 		++k;
-	else  //当前节点是红色
+	else			//当前节点是红色
 	{
 		if (RED == pRoot->_pParent->_color) //判断红色节点是否连续
 		{
