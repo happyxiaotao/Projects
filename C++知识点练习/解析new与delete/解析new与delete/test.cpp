@@ -1,6 +1,10 @@
 #include <iostream>
 #include "new_delete.h"
 
+/*
+对于new 与delete 《more effective C++》有详细的叙述
+*/
+
 using namespace std;
 
 class Array
