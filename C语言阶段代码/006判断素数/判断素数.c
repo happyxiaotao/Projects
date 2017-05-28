@@ -17,13 +17,22 @@ int main()
 
 	return 0;
 }
+
+//质数（prime number）又称素数，有无限个。
+//质数定义为在大于1的自然数中，除了1和它本身以外不再有其他因数的数称为质数。
 int Is_prime(int n)
 {
-	int j = 0;
-
-	for(j = 2; j <= sqrt(n); j++)
+	int i = 0;
+	
+	if (n <= 1)
+		return 0;
+	
+	if ((2 == n) || (3 == n))
+		return 1;
+	
+	for(i = 2; i <= sqrt(n); ++i)
 	{
-		if(n%j == 0)
+		if(n%i == 0)
 			return 0;
 	}
 	return 1;
