@@ -3,6 +3,10 @@
 #ifndef _RBTREE_H_
 #define _RBTREE_H_
 
+/*
+拓展，给红黑树添加迭代器
+*/
+
 #include <iostream>
 using namespace std;
 
@@ -358,3 +362,4 @@ bool RBTree<K, V>::_CheckRBTree(const Node* pRoot, size_t blackCount, size_t k)
 
 
 #endif //_RBTREE_H_
+
