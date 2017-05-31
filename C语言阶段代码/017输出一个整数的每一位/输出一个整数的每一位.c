@@ -2,8 +2,15 @@
 
 void Output_bit(int value)
 {
-	int divisor = value % 10;
-
+	int divisor = 0;
+	
+	if (0 > value)//value是负数
+	{
+		printf("-");
+		value *= -1;
+	}
+	
+	divisor = value % 10
 	value /= 10;
 
 	if(value)
