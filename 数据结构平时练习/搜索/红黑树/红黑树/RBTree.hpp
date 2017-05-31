@@ -10,6 +10,15 @@
 #include <iostream>
 using namespace std;
 
+template <typename K, typename V, typename Ref, typename Ptr>
+struct Iterator
+{
+	typedef RBTreeNode<K, V> Node;
+	typedef Iterator<K, V, K&, K*> Self;
+	
+	Node* _pNode;
+};
+
 /*
 红黑树性质：
 1，每个节点不是红色，就是黑色
