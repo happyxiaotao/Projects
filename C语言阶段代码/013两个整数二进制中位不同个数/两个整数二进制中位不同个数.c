@@ -9,9 +9,9 @@ int main()
 
 	while(tmp)
 	{
-		if(tmp%2 == 1)
-			count++;
-		tmp = tmp>>1;
+		if(tmp%2)//1 == tmp%2
+			++count;
+		tmp >>= 1;
 	}
 
 	printf("count = %d\n",count);
