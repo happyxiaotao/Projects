@@ -415,12 +415,8 @@ void RBTree<K, V>::_TotalR(Node* pParent)
 		else
 			pGrandParent->_pRight = pSubL;
 	}
-	else if (pGrandParent == _pHead)
-	{}
 	else
-	{
 		_pRoot = pSubL;
-	}
 
 }
 
