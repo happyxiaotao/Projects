@@ -4,6 +4,7 @@
 #define _BST_H_
 
 #include <iostream>
+#include <assert.h>
 using namespace std;
 
 template <typename K, typename V>
@@ -24,6 +25,7 @@ struct BSTNode
 	V _value;
 };
 
+//添加迭代器，没有考虑容器为空的情况
 template <typename K, typename V, typename Ref, typename Ptr>
 class Iterator
 {
@@ -53,22 +55,26 @@ public:
 
 	Self& operator++()//前置++
 	{
+		assert(_pNode);
 		Increment(_pNode);
 		return *this;
 	}
 	Self operator++(int)//后置++
 	{
+		assert(_pNode);
 		Self temp(*this);
 		Increment(_pNode);
 		return temp;
 	}
 	Self& operator--()//前置--
 	{
+		assert(_pNode);
 		Decrement(_pNode);
 		return *this;
 	}
 	Self operator--(int)//后置--
 	{
+		assert(_pNode);
 		Self temp(*this);
 		Decrement(_pNode);
 		return temp;
@@ -85,10 +91,12 @@ public:
 
 	Node& operator *()
 	{
+		assert(_pNode);
 		return (*_pNode);
 	}
 	Node* operator -> ()
 	{
+		assert(_pNode);
 		return _pNode;
 	}
 

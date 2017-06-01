@@ -10,15 +10,6 @@
 #include <iostream>
 using namespace std;
 
-template <typename K, typename V, typename Ref, typename Ptr>
-struct Iterator
-{
-	typedef RBTreeNode<K, V> Node;
-	typedef Iterator<K, V, K&, K*> Self;
-	
-	Node* _pNode;
-};
-
 /*
 红黑树性质：
 1，每个节点不是红色，就是黑色
@@ -30,6 +21,7 @@ struct Iterator
 
 enum COLOR { RED, BLACK };
 
+//红黑树节点
 template <typename K, typename V>
 struct RBTreeNode
 {
@@ -51,6 +43,7 @@ struct RBTreeNode
 	COLOR _color;
 };
 
+//红黑树
 template <typename K, typename V>
 class RBTree
 {

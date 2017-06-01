@@ -1,6 +1,18 @@
-#include "RBTree.hpp"
+//#include "RBTree.hpp"
+#include "RBTreeIterator.hpp"
+
+void Test1();//验证没有iterator时的红黑树
+void Test2();//验证iterator为空时的情况
+void Test3();//验证添加iterator的红黑树
 
 int main()
+{
+	Test2();
+	system("pause");
+	return 0;
+}
+
+void Test1()
 {
 	int a[] = { 10,85,15,70,20,60,30,50,65,80,90,40,5,55 };
 	//int a[] = { 10, 7, 8, 15, 5, 6, 11, 13, 12 };
@@ -20,6 +32,11 @@ int main()
 
 	if (t.CheckRBTree())
 		cout << "满足红黑树条件" << endl;
-	system("pause");
-	return 0;
+}
+
+//验证iterator为空时的情况
+void Test2()
+{	
+	vector<int>::iterator it;
+	cout << *it << endl;
 }

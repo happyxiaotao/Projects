@@ -6,9 +6,19 @@ void Test1();
 void Test2();
 void Test3();
 
+
+void Test4()
+{
+	BinarySearchTree<int, int> bst;
+	
+	BinarySearchTree<int, int>::iterator it;
+	it = bst.Begin();
+	cout << it->_key << endl;
+}
+
 int main()
 {
-	Test3();
+	Test4();
 	
 
 	system("pause");
