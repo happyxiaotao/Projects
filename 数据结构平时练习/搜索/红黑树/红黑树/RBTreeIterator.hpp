@@ -25,7 +25,7 @@ enum COLOR { RED, BLACK };
 template <typename K, typename V>
 struct RBTreeNode
 {
-	RBTreeNode(const K& key, const V& value, COLOR color = RED)
+	RBTreeNode(const K& key = K(), const V& value = V(), COLOR color = RED)
 		: _pParent(nullptr)
 		, _pLeft(nullptr)
 		, _pRight(nullptr)
@@ -177,15 +177,16 @@ template <typename K, typename V>
 class RBTree
 {
 public:
-	typedef Iterator<K, V, K&, K*> iterator;
+	typedef Iterator<K, V, K&, K*> iterator;//要设置公有的，外界才能访问
 
 private:
 	typedef RBTreeNode<K, V> Node;
 
 public:
 	RBTree()
-		: _pHead(nullptr)
-	{}
+	{
+		_pHead =  new Node();//创建头结点
+	}
 
 public:
 
@@ -206,7 +207,7 @@ public:
 	void InOrder()
 	{
 		cout << "中序遍历：" << endl;
-		_InOrder(_pRoot);
+		_InOrder(GetRoot());
 		cout << endl;
 	}
 
@@ -217,7 +218,7 @@ private:
 	//获取根结点
 	Node* GetRoot()
 	{
-		return _pHead ? _pHead->_pParent : nullptr;
+		return _pHead->_pParent;
 	}
 
 	//左单旋
@@ -259,9 +260,10 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 	//空树，情况一
 	if (nullptr == pRoot)
 	{
-		_pHead = new Node(K(), V());//创建头结点
 		pRoot = new Node(key, value, BLACK);//根指向新的节点，根节点是黑色的
 		pRoot->_pParent = _pHead;
+		
+		//头结点与根结点的双亲互指
 		_pHead->_pLeft = pRoot;
 		_pHead->_pRight = pRoot;
 		_pHead->_pParent = pRoot;
@@ -292,8 +294,8 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 	}
 
 	//先添加，在考虑调整情况（若接下来不满足循环中条件，则本次添加属于情况二）
-	Node* pNewNode = new Node(key, value);//创建新的节点
-	pNewNode->_pParent = pParent;//调整双亲指向
+	Node* pNewNode = new Node(key, value);	//创建新的节点
+	pNewNode->_pParent = pParent;	//调整双亲指向
 	if (key < pParent->_key)	//新节点应该插入到左边
 		pParent->_pLeft = pNewNode;
 	else						//新节点应该插入到右边
@@ -301,9 +303,9 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 
 	pCur = pNewNode;//记住，要随时更新指向，在下面循环中处理
 
-	while (pParent && (RED == pParent->_color))
+	while ((pParent != _pHead) && (RED == pParent->_color))//pParent不是根结点 并且 颜色是红色
 	{
-		Node* pGrandParent = pParent->_pParent;//祖父母节点g
+		Node* pGrandParent = pParent->_pParent;//祖父母节点g //pGrandParent必定存在，因为pParent是红色
 
 		if (pParent == pGrandParent->_pLeft)//p在g的左边
 		{
@@ -406,15 +408,19 @@ void RBTree<K, V>::_TotalR(Node* pParent)
 	Node* pGrandParent = pParent->_pParent;
 	pParent->_pParent = pSubL;
 	pSubL->_pParent = pGrandParent;
-	if (pGrandParent)
+	if (pGrandParent && (pGrandParent != _pHead))
 	{
 		if (pGrandParent->_pLeft == pParent)//注意，使用==，不要忘记写出=（调试半天）
 			pGrandParent->_pLeft = pSubL;
 		else
 			pGrandParent->_pRight = pSubL;
 	}
+	else if (pGrandParent == _pHead)
+	{}
 	else
+	{
 		_pRoot = pSubL;
+	}
 
 }
 

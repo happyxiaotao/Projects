@@ -154,8 +154,9 @@ template <typename K, typename V>
 class BinarySearchTree
 {
 public:
-	typedef BSTNode<K, V> Node;
 	typedef Iterator<K, V, K&, K*> iterator;//迭代器需要公有，使得外界访问
+private:
+		typedef BSTNode<K, V> Node;
 public:
 	BinarySearchTree()
 	{
