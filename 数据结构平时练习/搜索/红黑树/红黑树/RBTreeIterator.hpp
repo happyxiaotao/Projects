@@ -53,6 +53,7 @@ struct Iterator
 
 	//构造函数
 	Iterator(Node* pNode = nullptr)
+		:_pNode(pNode)
 	{}
 
 	//拷贝构造函数
@@ -190,12 +191,12 @@ public:
 
 public:
 
-	iterator& Begin()
+	iterator Begin()//不可以是引用
 	{
 		return iterator(_pHead->_pLeft);
 	}
 
-	iterator& End()
+	iterator End()//不可是引用
 	{
 		return iterator(_pHead);
 	}
@@ -229,7 +230,31 @@ private:
 
 	//中序遍历
 	void _InOrder(Node* pRoot);
-
+	
+	//找到最小的节点
+	Node* _FindMin()
+	{
+		Node* pCur = GetRoot();
+		
+		if (pCur)
+			while (pCur->_pLeft)
+				pCur = pCur->_pLeft;
+		
+		return pCur;
+	}
+	
+	//找到最大的节点
+	Node* _FindMax()
+	{
+		Node* pCur = GetRoot();
+		
+		if (pCur)
+			while (pCur->_pRight)
+				pCur = pCur->_pRight;
+			
+		return pCur;
+	}
+	
 	//检查是否符合红黑树性质
 	//blackCount表示树中，每条最短路径上黑色个数，k表述当前到达该节点的路径上，黑色节点个数（不算本节点的黑色）
 	bool _CheckRBTree(const Node* pRoot, const size_t blackCount, size_t k);
@@ -335,7 +360,7 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 					//pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲 
 					//若添加上述代码,则有课能pParent的双亲结点颜色是red，继续进入循环，发生不可预料的意外
 
-					return true;
+					break;
 				}
 				else //pCur == pParent->_pLeft.  cur,p,g不在同一条直线上	//情况五
 				{
@@ -372,7 +397,7 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 					pGrandParent->_color = RED;
 
 					//退出原因，见上面 情况4解释
-					return true;
+					break;
 				}
 				else //pCur == pParent->_pLeft.  cur,p,g不在同一条直线上	//情况五
 				{
@@ -387,8 +412,11 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 		}
 	}
 
-	_pRoot->_color = BLACK;//不管怎么调整，根节点始终是黑色，而且黑色可以连续
-
+	_pHead->_pParent->_color = BLACK;//不管怎么调整，根节点始终是黑色，而且黑色可以连续
+	
+	_pHead->_pLeft = _FindMin();
+	_pHead->_pRight = _FindMax();
+	
 	return true;
 }
 
@@ -408,7 +436,7 @@ void RBTree<K, V>::_TotalR(Node* pParent)
 	Node* pGrandParent = pParent->_pParent;
 	pParent->_pParent = pSubL;
 	pSubL->_pParent = pGrandParent;
-	if (pGrandParent && (pGrandParent != _pHead))
+	if (/*pGrandParent && */(pGrandParent != _pHead))//可以证明pGrandParent是一定存在的
 	{
 		if (pGrandParent->_pLeft == pParent)//注意，使用==，不要忘记写出=（调试半天）
 			pGrandParent->_pLeft = pSubL;
@@ -416,7 +444,7 @@ void RBTree<K, V>::_TotalR(Node* pParent)
 			pGrandParent->_pRight = pSubL;
 	}
 	else
-		_pRoot = pSubL;
+		_pHead->_pParent = pSubL;
 
 }
 
@@ -436,7 +464,7 @@ void RBTree<K, V>::_TotalL(Node* pParent)
 	Node* pGrandParent = pParent->_pParent;
 	pParent->_pParent = pSubR;
 	pSubR->_pParent = pGrandParent;
-	if (pGrandParent)
+	if (/*pGrandParent && */(pGrandParent != _pHead))//可以证明pGrandParent是一定存在的
 	{
 		if (pGrandParent->_pLeft == pParent)//注意，使用==，不要忘记写出=
 			pGrandParent->_pLeft = pSubR;
@@ -444,7 +472,7 @@ void RBTree<K, V>::_TotalL(Node* pParent)
 			pGrandParent->_pRight = pSubR;
 	}
 	else
-		_pRoot = pSubR;
+		_pHead->_pParent = pSubR;
 }
 
 //递归实现中序遍历
@@ -464,19 +492,20 @@ void RBTree<K, V>::_InOrder(Node* pRoot)
 template <typename K, typename V>
 bool RBTree<K, V>::CheckRBTree()
 {
+	Node* pRoot = GetRoot();
 	//空树，满足红黑树性质
-	if (nullptr == _pRoot)
+	if (nullptr == pRoot)
 		return true;
 
 	//根结点是红色的，违反性质2
-	if (RED == _pRoot->_color)
+	if (RED == pRoot->_color)
 	{
 		cout << "根结点是红色的，违反性质2" << endl;
 		return false;
 	}
 
 	size_t blackCount = 0;//保存一条从根结点到叶子结点上黑色节点的个数
-	Node* pCur = _pRoot;
+	Node* pCur = pRoot;
 	while (pCur)
 	{
 		if (BLACK == pCur->_color)
@@ -484,7 +513,7 @@ bool RBTree<K, V>::CheckRBTree()
 		pCur = pCur->_pLeft;
 	}
 	//在下面递归函数中，检查性质3和性质4
-	return _CheckRBTree(_pRoot, blackCount, 0);
+	return _CheckRBTree(pRoot, blackCount, 0);
 }
 
 //判断是否满足红黑树性质3与性质4
