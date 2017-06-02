@@ -29,8 +29,11 @@ struct BSTNode
 template <typename K, typename V, typename Ref, typename Ptr>
 class Iterator
 {
+	
 	typedef BSTNode<K, V> Node;
 	typedef Iterator<K, V, Ref, Ptr> Self;
+	typedef Ref value_Ref;
+	typedef Ptr value_Ptr;
 
 public:
 	Iterator()
@@ -89,15 +92,15 @@ public:
 		return !(*this == it);
 	}
 
-	Node& operator *()
+	value_Ref operator *()
 	{
 		assert(_pNode);
-		return (*_pNode);
+		return (_pNode->_key);
 	}
-	Node* operator -> ()
+	value_Ptr operator -> ()
 	{
 		assert(_pNode);
-		return _pNode;
+		return &(operator*());
 	}
 
 private:

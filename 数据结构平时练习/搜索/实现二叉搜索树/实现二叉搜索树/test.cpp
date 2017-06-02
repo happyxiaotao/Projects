@@ -6,19 +6,19 @@ void Test1();
 void Test2();
 void Test3();
 
-
+//验证迭代器为空时的情况，能不能输出内容
 void Test4()
 {
 	BinarySearchTree<int, int> bst;
 	
 	BinarySearchTree<int, int>::iterator it;
 	it = bst.Begin();
-	cout << it->_key << endl;
+	cout << *it << endl;
 }
 
 int main()
 {
-	Test4();
+	Test3();
 	
 
 	system("pause");
@@ -83,7 +83,7 @@ void Test3()
 
 	while (it != bst.End())
 	{
-		cout << it->_key << " ";
+		cout << *it << " ";
 		++it;
 	}
 	cout << endl;
@@ -95,7 +95,7 @@ void Test3()
 
 	while (pHead)
 	{
-		cout << pHead->_key << " ";
+		cout << pHead  << " ";
 		pHead = pHead->_pRight;
 	}
 

@@ -161,29 +161,54 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 			}
 			else //nullptr == pUncle || BLACK == pUncle->_color   pUncle不存在或者存在且颜色为黑
 			{
-				if (pCur == pParent->_pLeft)//cur，p都处于各自双亲的左子树（cur, p, g在同一条直线）//情况四
-				{
-					_TotalR(pGrandParent);//右单旋
+				//由于情况5可以转换为情况4，所以将两种情况合并到一次循环中
 
-					//p与g颜色互换
-					pParent->_color = BLACK;
-					pGrandParent->_color = RED;
-
-					//调整完后，应该直接退出（当前树，已经满足红黑树性质，而该树意外的树本来就是满足红黑树性质，所以，直接退出，----调试半天）
-					//pCur = pParent;//向上调整，为下次循环做准备，指向新的根结点
-					//pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲 
-					//若添加上述代码,则有课能pParent的双亲结点颜色是red，继续进入循环，发生不可预料的意外
-
-					return true;
-				}
-				else //pCur == pParent->_pLeft.  cur,p,g不在同一条直线上	//情况五
+				if (pCur == pParent->_pRight)//cur, p, g不在同一条直线上	//情况五
 				{
 					_TotalL(pParent);//左单旋 
 
-					 //此时不用交换颜色，变为 情况四，在下次循环中处理
+									 //此时不用交换颜色，变为 情况四，在下面处理
 
 					std::swap(pParent, pCur);//注意交换，pParent，pCur的内容，方便情况4处理
 				}
+
+				_TotalR(pGrandParent);//右单旋， cur，p都处于各自双亲的左子树（cur, p, g在同一条直线）//情况四
+
+				//p与g颜色互换
+				pParent->_color = BLACK;
+				pGrandParent->_color = RED;
+
+				//调整完后，应该直接退出（当前树，已经满足红黑树性质，而该树意外的树本来就是满足红黑树性质，所以，直接退出，----调试半天）
+				//pCur = pParent;//向上调整，为下次循环做准备，指向新的根结点
+				//pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲 
+				//若添加上述代码,则有课能pParent的双亲结点颜色是red，继续进入循环，发生不可预料的意外
+
+				break;
+				//修改之前的代码，将两种情况分成两次循环中做
+				//修改之后，在一次循环中处理
+				//	if (pCur == pParent->_pLeft)//cur，p都处于各自双亲的左子树（cur, p, g在同一条直线）//情况四
+				//	{
+				//		_TotalR(pGrandParent);//右单旋
+
+				//		//p与g颜色互换
+				//		pParent->_color = BLACK;
+				//		pGrandParent->_color = RED;
+
+				//		//调整完后，应该直接退出（当前树，已经满足红黑树性质，而该树意外的树本来就是满足红黑树性质，所以，直接退出，----调试半天）
+				//		//pCur = pParent;//向上调整，为下次循环做准备，指向新的根结点
+				//		//pParent = pCur->_pParent;//向上调整，pParent指向新的根结点pCur的双亲 
+				//		//若添加上述代码,则有课能pParent的双亲结点颜色是red，继续进入循环，发生不可预料的意外
+
+				//		return true;
+				//	}
+				//	else //pCur == pParent->_pRight.  cur,p,g不在同一条直线上	//情况五
+				//	{
+				//		_TotalL(pParent);//左单旋 
+
+				//		 //此时不用交换颜色，变为 情况四，在下次循环中处理
+
+				//		std::swap(pParent, pCur);//注意交换，pParent，pCur的内容，方便情况4处理
+				//	}
 			}
 
 		}
@@ -202,25 +227,25 @@ bool RBTree<K, V>::Insert(const K& key, const V& value, COLOR color)
 			}
 			else //pUncle = nullptr || BLACK == pUncle->_color
 			{
-				if (pCur == pParent->_pRight)//cur，p都处于各自双亲的右子树（cur, p, g在同一条直线）//情况四
-				{
-					_TotalL(pGrandParent);//左单旋
+				//由于情况5可以转换为情况4，所以将两种情况合并到一次循环中
 
-					 //p与g颜色互换
-					pParent->_color = BLACK;
-					pGrandParent->_color = RED;
-					
-					//退出原因，见上面 情况4解释
-					return true;
-				}
-				else //pCur == pParent->_pLeft.  cur,p,g不在同一条直线上	//情况五
+				// cur,p,g不在同一条直线上	//情况五
+				if (pCur = pParent->_pLeft)
 				{
-					_TotalR(pParent);//右单旋  
-
+					_TotalR(pParent); //右单旋
 					 //此时不用交换颜色，变为 情况四，在下次循环中处理
-
-					std::swap(pParent, pCur);//注意交换，pParent，pCur的内容，方便情况4处理
+					std::swap(pParent, pCur);////注意交换，pParent，pCur的内容，方便情况4处理
 				}
+
+				//cur，p都处于各自双亲的右子树（cur, p, g在同一条直线）//情况四
+				_TotalL(pGrandParent);		//左单旋
+
+					//p与g颜色互换
+				pParent->_color = BLACK;
+				pGrandParent->_color = RED;
+
+				//退出原因，见上面 情况4解释
+				break;
 			}
 
 		}
